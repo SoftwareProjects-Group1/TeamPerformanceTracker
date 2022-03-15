@@ -2,7 +2,7 @@
   <div class = "header">
     <div class="inner_header">
       <div class="logo_container">
-        <img src="../assets/media/Actemium.png">
+        <img src="/assets/media/Actemium.png">
       </div>
       <ul class = "navigation">
         <a href = "#"><li>Link Button</li></a>  
