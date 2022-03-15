@@ -39,15 +39,14 @@
               </div>
               <hr class="my-4">
               <div class="d-grid mb-2 text-center">
-                <button class="btn btn-google btn-login text-uppercase fw-bold" type="submit">
-                      Forgot password?
+                <a href="forgotPassword.php" class="btn btn-google btn-login text-uppercase fw-bold" type="submit">
+                      Forgot password?</a>
 
                 </button>
               </div>
               <div class="d-grid mb-2 text-center">
-                <button class="btn btn-google btn-login text-uppercase fw-bold" type="submit">
-                Create an account 
-              </button>
+              <a href="UserCreation.php" class="btn btn-google btn-login text-uppercase fw-bold" type="submit">
+                      Create Account</a>
               
               </div>
             </form>
