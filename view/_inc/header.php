@@ -5,10 +5,10 @@
         <img src="../assets/media/Actemium.png">
       </div>
       <ul class = "navigation">
-        <a href = "#"><li>Link Button</li></a>  
-          <a href = "#"><li>Link Button</li></a>    
-          <a href = "#"><li>Link Button</li></a>    
-          <a href = "#"><li>Link Button</li></a>    
+        <a href = "teamsPage.php"><li>Teams</li></a>  
+          <a href = "EmployeesPage.php"><li>Employees</li></a>    
+          <a href = "performancePage.php"><li>Performance</li></a>    
+           
 	</ul>
     </div>
   </div>
