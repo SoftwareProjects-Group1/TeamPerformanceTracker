@@ -8,51 +8,58 @@
     <div class="inner_main">
 
     <section class="vh-100">
-  <div class="container-fluid h-custom">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-        
-        <form>
-          <div class="divider d-flex align-items-center my-4">
-            <p class="text-center fw-bold mx-3 mb-0"></p>
+    <body>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+        <div class="card border-0 shadow rounded-3 my-5">
+          <div class="card-body p-4 p-sm-5">
+            <h5 class="card-title text-center mb-5 fw-light fs-5">Sign In</h5>
+            <form>
+              <div class="form-floating mb-3">
+              <label for="floatingInput">Email address</label>
+                <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                
+              </div>
+              <div class="form-floating mb-3">
+              <label for="floatingPassword">Password</label>
+                <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                
+              </div>
+
+              <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" value="" id="rememberPasswordCheck">
+                <label class="form-check-label" for="rememberPasswordCheck">
+                  Remember password
+                </label>
+              </div>
+              <div class="d-grid text-center">
+                <button class="  btn btn-primary btn-login text-uppercase fw-bold" type="submit">Sign
+                  in</button>
+              </div>
+              <hr class="my-4">
+              <div class="d-grid mb-2 text-center">
+                <button class="btn btn-google btn-login text-uppercase fw-bold" type="submit">
+                      Forgot password?
+
+                </button>
+              </div>
+              <div class="d-grid mb-2 text-center">
+                <button class="btn btn-google btn-login text-uppercase fw-bold" type="submit">
+                Create an account 
+              </button>
+              
+              </div>
+            </form>
           </div>
-
-          <!-- Email input -->
-          <div class="form-outline mb-4 ">
-          <label class="form-label" for="form3Example3">Email address</label>
-
-            <input type="email" id="form3Example3" class="form-control form-control-lg"
-              placeholder="" />
-          </div>
-
-          <!-- Password input -->
-          <div class="form-outline mb-3">
-          <label class="form-label" for="form3Example4">Password</label>
-
-            <input type="password" id="form3Example4" class="form-control form-control-lg"
-              placeholder="" />
-          </div>
-          
-          <div class="text-center text-lg-start">
-            <p class=" fw-bold mt-0 pt-0mb-0"> <a href="forgotPassword.php"
-                class="link-danger">Forgot Password?</a></p>
-          </div>
-
-
-          <div class="text-center text-lg-start mt-4 pt-2">
-            <button type="button" class="btn btn-primary btn-lg"
-              style="padding-left: 2.5rem; padding-right: 2.5rem;">Login</button>
-            <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="#!"
-                class="link-danger">Register</a></p>
-          </div>
-
-        </form>
+        </div>
       </div>
     </div>
+  </div>
+</body>
+</div>
 </div>
 </section>
-        
-    </div>
-</div> 
 <?php
     require("../view/_inc/footer.php");
 ?>
