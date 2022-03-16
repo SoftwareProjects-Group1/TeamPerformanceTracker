@@ -16,15 +16,15 @@
           <div class="card-body p-4 p-sm-5">
             <h5 class="card-title text-center mb-5 fw-light fs-5">Sign In</h5>
             <form>
+              
               <div class="form-floating mb-3">
-              <label for="floatingInput">Email address</label>
-                <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                
+                <input type="email" class="form-control" id="email" placeholder="name@example.com">
+                <label for="floatingInput">Email address</label>
               </div>
+
               <div class="form-floating mb-3">
-              <label for="floatingPassword">Password</label>
-                <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-                
+                <input type="password" class="form-control" id="password" placeholder="Password">
+                <label for="floatingPassword">Password</label>
               </div>
 
               <div class="form-check mb-3">
@@ -33,10 +33,12 @@
                   Remember password
                 </label>
               </div>
+
               <div class="d-grid text-center">
                 <button class="  btn btn-primary btn-login text-uppercase fw-bold" type="submit">Sign
                   in</button>
               </div>
+
               <hr class="my-4">
               <div class="d-grid mb-2 text-center">
                 <a href="forgotPassword.php" class="btn btn-google btn-login text-uppercase fw-bold" type="submit">
@@ -44,11 +46,12 @@
 
                 </button>
               </div>
+
               <div class="d-grid mb-2 text-center">
               <a href="UserCreation.php" class="btn btn-google btn-login text-uppercase fw-bold" type="submit">
                       Create Account</a>
-              
               </div>
+
             </form>
           </div>
         </div>

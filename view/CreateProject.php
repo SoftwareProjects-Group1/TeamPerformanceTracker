@@ -32,7 +32,7 @@
             </div><br>
             
             <div class="d-grid text-center">
-              <button class="  btn btn-success btn-login text-uppercase fw-bold" type="submit">Create Project</button>
+              <button class="  btn btn-primary btn-login text-uppercase fw-bold" type="submit">Create Project</button>
             </div><br>
 
             <div class="d-grid text-center">
