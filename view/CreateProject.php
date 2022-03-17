@@ -21,10 +21,16 @@
               <label for="floatingInput">Project Name</label>
             </div>
 
-            <div class="form-floating mb-3">
-              <input type="text" class="form-control" id="projectManager" placeholder="Project Manager">
-              <label for="floatingPassword">Project Manager</label>
-            </div>      
+            <div class="form-floating mb-3">                    
+              <select class="select form-control" name="EmpStatus">
+                <option value="0" disabled>Select Team</option>
+                <option value="1">Manager 1</option>
+                <option value="2">Manager 2</option>
+                <option value="3">Manager 3</option>
+                <option value="4">Manager 4</option>
+              </select>
+              <label class="form-label select-label">Select Project Manager</label>
+            </div>    
             
             <div class="form-floating mb-3">
               <input type="number" class="form-control" id="projectBudget" placeholder="Budget">

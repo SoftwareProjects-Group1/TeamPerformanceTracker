@@ -6,8 +6,9 @@
       </div>
       <ul class = "navigation">
         <a href = "teamsPage.php"><li>Teams</li></a>  
-          <a href = "EmployeesPage.php"><li>Employees</li></a>    
-          <a href = "performancePage.php"><li>Performance</li></a>    
+        <a href = "EmployeesPage.php"><li>Employees</li></a>    
+        <a href = "performancePage.php"><li>Performance</li></a>   
+        <a href = "ViewProject.php"><li>Projects</li></a>     
            
 	</ul>
     </div>
