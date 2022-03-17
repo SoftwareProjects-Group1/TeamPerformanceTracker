@@ -1,12 +1,12 @@
-.main{
-    width:100%;
+.main {
+    width: 100%;
     height: 100%;
-    padding:50px 0;
+    padding: 50px 0;
     background-color: #004087;
-    display: block;
+    display: table;
 }
 
-.inner_main{
+.inner_main {
     height: 100%;
     margin: 0 8.33%;
     background-color: #ffffff;
