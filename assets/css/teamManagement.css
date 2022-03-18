@@ -1,0 +1,58 @@
+.mainBox {
+    background-color: white;
+}
+
+.sideButtons button {
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: 20px;
+    padding-bottom: 12px;
+    width: 95%;
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+}
+
+.sideButtons button:hover {
+    text-decoration: underline;
+}
+
+.sideButtons div {
+    margin-bottom: 12px;
+    width: 90%;
+    height: 2px;
+    background-color: white;
+    border-radius: 5px;
+}
+
+.teamContainer {
+    max-width: 40%;
+    border: 1px solid grey;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.teamContainer input {
+    border: none;
+    font-family: 'Montserrat', sans-serif;
+    text-decoration: underline;
+}
+
+.teamContainer input:focus {
+    outline: none;
+}
+
+.delTeamBTN {
+    border: none;
+    background-color: transparent;
+    color: #0088cc;
+}
+
+.delTeamBTN:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.teamDivider {
+    background-color: grey;
+    height: 2px;
+    width: 95%;
+}
