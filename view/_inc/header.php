@@ -1,3 +1,4 @@
+</head>
 <body class="d-flex flex-column position-absolute h-100 w-100">
   <div class = "header">
     <div class="inner_header">
