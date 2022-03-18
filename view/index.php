@@ -4,7 +4,7 @@
     include_once("checkLogin.php");
     
     
-    if (isset($_POST['submit'])) {
+     if (isset($_POST['submit'])) {
 
       if ($_POST['uname']=="") {
           $erroruname = "Username is required";
@@ -13,7 +13,20 @@
         if ($_POST['pwd']==null) {
           $errorpwd = "Password is required";
         }
-      }
+
+        if  ($_POST['pwd']!=null && $_POST['pwd']!=null){
+          $hi = verify();
+
+          if ($hi == null){
+            echo "null";
+          }
+          else{
+            
+            echo $hi;
+
+          }
+        }
+      } 
 
 ?>
 
@@ -32,7 +45,7 @@
             <form method="post">
               
               <div class="form-floating mb-3">
-                <input type="email" class="form-control" name="uname" placeholder="name@example.com">
+                <input class="form-control" name="uname" placeholder="name@example.com">
                 <label for="floatingInput">Username</label>
                 <span class="text-danger"><?php echo $erroruname; ?></span>
 

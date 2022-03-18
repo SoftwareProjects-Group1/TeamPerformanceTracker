@@ -1,25 +1,45 @@
 <?php
+
 function verify(){
+try {
+
+
+
 if (!isset($_POST['uname']) or !isset($_POST['pwd'])) {
     return ;  // <-- return null;
 }
 
-$db = new Mongo('mongodb+srv://group1:fvAIyyCRp4PBaDPQ@clst01.to6hh.mongodb.net/projectDB?retryWrites=true&w=majority');
+$username = $_POST['uname'];
+$password = $_POST['pwd'];
 
-$stmt = $db->prepare('SELECT Username, Password, First_Name, Last_Name, Email_Address, Role FROM Users WHERE Username=:uname AND Password=:pwd');
-$stmt->bindParam(':uname', $_POST['uname'], SQLITE3_TEXT);
-$stmt->bindParam(':pwd', $_POST['pwd'], SQLITE3_TEXT);
+$conn = new Mongo('mongodb+srv://group1:fvAIyyCRp4PBaDPQ@clst01.to6hh.mongodb.net/projectDB?retryWrites=true&w=majority');
+$db = $conn->test;
+$collection = $db->items;
 
-$result = $stmt->execute();
+$user = $db->$collection->findOne(array('Username'=> 'user1', 'Password'=> 'pass1'));
 
 $rows_array = [];
-while ($row=$result->fetchArray())
-{
-    $rows_array[]=$row;
-}
-return $rows_array;
+
+foreach ($user as $obj) {
+    $Role = $obj['Username'];
+    }
 
 
+    $conn->close();
+
+
+    return $Role;
+
+
+
+}catch (MongoConnectionException $e) {
+    die('Error connecting to MongoDB server');
+} catch (MongoException $e) {
+    die('Error: ' . $e->getMessage());
 }
+
+}
+
+
 
 ?>
