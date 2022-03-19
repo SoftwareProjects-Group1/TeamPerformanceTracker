@@ -2,6 +2,8 @@
     require("../view/_inc/head.php");
     require("../view/_inc/header.php");
     include_once("checkLogin.php");
+
+    $erroruname = $errorpwd = $invalidMesg = "";
     
     
      if (isset($_POST['submit'])) {
