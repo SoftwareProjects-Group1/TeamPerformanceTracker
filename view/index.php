@@ -54,7 +54,7 @@
 <div class="main">
     <div class="inner_main">
 
-    <section class="vh-100">
+    <section>
     <body>
   <div class="container">
     <div class="row">
