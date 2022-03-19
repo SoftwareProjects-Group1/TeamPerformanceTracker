@@ -1,6 +1,21 @@
 <?php
     require("../view/_inc/head.php");
     require("../view/_inc/header.php");
+
+    $missingEmail = "";
+    
+    if (isset($_POST['submit'])) {
+
+      if ($_POST['email']=="") {
+          $missingEmail = "Email is required";
+      } 
+
+      if  ($_POST['email']!=null){
+        echo "Password Reset Function Here";
+        header("Location: forgotPasswordSummary.php"); 
+      }
+    }
+     
 ?>
 <div class="main">
     <div class="inner_main">
@@ -13,21 +28,21 @@
         <div class="card border-0 shadow rounded-3 my-5">
           <div class="card-body p-4 p-sm-5">
             <h5 class="card-title text-center mb-5 fw-light fs-5">Forgot Password</h5>
-            <form>
+            <form method="post">
               
               <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="email" placeholder="name@example.com">
+                <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com">
                 <label for="floatingInput">Email address</label>
+                <span class="text-danger"><?php echo $missingEmail; ?></span>
               </div>
 
               <div class="d-grid text-center">
-                <button class="  btn btn-primary btn-success text-uppercase fw-bold" type="submit">Request Password Reset</button>
+                <button class="btn btn-primary btn-success text-uppercase fw-bold" name="submit" type="submit">Request Password Reset</button>
               </div>
-
 
               <hr class="my-2">
               <div class="d-grid mb-2 text-center">
-                <a href="index.php" class="btn btn-google btn-login text-uppercase fw-bold" type="submit">
+                <a href="index.php" class="btn btn-google btn-login text-uppercase fw-bold">
                       Return to login</a>
                 </button>
               </div>           
