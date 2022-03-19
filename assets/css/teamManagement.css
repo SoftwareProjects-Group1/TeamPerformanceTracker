@@ -29,6 +29,9 @@
     max-width: 40%;
     border: 1px solid grey;
     font-family: 'Montserrat', sans-serif;
+    margin-top: 15px;
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
 .teamContainer input {
@@ -41,13 +44,13 @@
     outline: none;
 }
 
-.delTeamBTN {
+.BTN {
     border: none;
     background-color: transparent;
     color: #0088cc;
 }
 
-.delTeamBTN:hover {
+.BTN:hover {
     background-color: rgba(0, 0, 0, 0.05);
 }
 
@@ -55,4 +58,39 @@
     background-color: grey;
     height: 2px;
     width: 95%;
+}
+
+.projectContainer {
+    text-align: start!important;
+}
+
+.projectPod {
+    border-radius: 100px;
+    border: 1px solid gray;
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
+    padding-right: 0.3rem;
+    padding-left: 0.3rem;
+    display: inline-block;
+    margin-top: 10px;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+.projectPod:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+}
+
+.engineerPod {
+    border: 0.5px solid grey;
+    padding: 0.3rem;
+    margin-top: 5px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.engineerPod:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    cursor: pointer;
 }
