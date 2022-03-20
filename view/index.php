@@ -43,6 +43,7 @@
     e.srcElement[1].value = "";
   }
   function checkLogin(data,status){
+    console.log(data,status);
     data=JSON.parse(data);
     if(status!="success"){alert("Can't login at this time");return;}
     if(data[0]==false){alert("Bad Login, Try Again")}
