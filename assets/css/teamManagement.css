@@ -39,6 +39,7 @@
     border: none;
     font-family: 'Montserrat', sans-serif;
     text-decoration: underline;
+    width: 70%;
 }
 
 .teamContainer input:focus {
@@ -63,6 +64,7 @@
 
 .projectContainer {
     text-align: start!important;
+    flex-wrap: wrap;
 }
 
 .projectPod {
@@ -89,6 +91,7 @@
     margin-top: 5px;
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
 }
 
 .engineerPod:hover {

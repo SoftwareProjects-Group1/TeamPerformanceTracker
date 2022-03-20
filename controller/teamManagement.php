@@ -27,4 +27,9 @@ if(isset($_POST) && (isset($_POST['action']) && $_POST['action']=='getData')){
     echo json_encode(["teams"=>$teams,"employees"=>$employees,"projects"=>$projects]);
 }
 
+if(isset($_POST) && (isset($_POST['action']) && $_POST['action']=='deleteTeam')){
+    $teamID=$_POST['teamID'];
+
+}
+
 ?>
