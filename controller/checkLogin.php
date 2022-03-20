@@ -18,7 +18,12 @@ if(isset($_POST) && isset($_POST['action']) && $_POST['action'] == "checkPass"){
         $foundUser=$user;
     }
     if($foundUser==""){
-        echo "false";
+        unset($_SESSION['loggedIN']);
+        unset($_SESSION['userRole']);
+        unset($_SESSION['userFname']);
+        unset($_SESSION['userSname']);
+        unset($_SESSION['userUname']);
+        echo json_encode([false,0]);
     }
     else{
         $foundUser = json_decode(json_encode($foundUser), true);
@@ -35,12 +40,21 @@ if(isset($_POST) && isset($_POST['action']) && $_POST['action'] == "checkPass"){
                 setcookie("password","",time() - 3600,"/");
                 setcookie("checked","",time() - 3600,"/");
             }
-            echo "true";
-            //Replace this echo with session updates and header redirect when we know where its going.
+            $_SESSION['loggedIN']=true;
+            $_SESSION['userRole']=$fRole;
+            $_SESSION['userFname']=$foundUser['First_Name'];
+            $_SESSION['userSname']=$foundUser['Last_Name'];
+            $_SESSION['userUname']=$fuName;
+            echo json_encode([true,$fRole]);
             
         }
         else {
-            echo "false";
+            unset($_SESSION['loggedIN']);
+            unset($_SESSION['userRole']);
+            unset($_SESSION['userFname']);
+            unset($_SESSION['userSname']);
+            unset($_SESSION['userUname']);
+            echo json_encode([false,0]);
         }
     }
 }

@@ -1,7 +1,6 @@
 <?php
     require("../view/_inc/head.php");
     require("../view/_inc/header.php");
-    session_start();
 
     // include_once("checkLogin.php");
 
@@ -44,10 +43,13 @@
     e.srcElement[1].value = "";
   }
   function checkLogin(data,status){
-    console.log(data);
+    data=JSON.parse(data);
     if(status!="success"){alert("Can't login at this time");return;}
-    if(data=="false"){alert("Bad Login, Try Again")}
-    if(data=="true"){alert("Correct Login, change line 38 in the php file to redirect and add session updates instead of this alert.")}
+    if(data[0]==false){alert("Bad Login, Try Again")}
+    if(data[0]==true){
+      if(data[1]=="Admin"){window.location.replace("/view/teamManagement.php")}
+      if(data[1]=="Employee"){window.location.replace("/view/personalPerformance.php")}
+    }
   }
 </script>
 

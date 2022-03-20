@@ -1,16 +1,20 @@
 </head>
 <body class="d-flex flex-column position-absolute h-100 w-100">
-  <div class = "header">
-    <div class="inner_header">
-      <div class="logo_container">
-        <img src="../assets/media/Actemium.png">
-      </div>
-      <ul class = "navigation">
-        <a href = "teamsPage.php"><li>Teams</li></a>  
-        <a href = "EmployeesPage.php"><li>Employees</li></a>    
-        <a href = "performancePage.php"><li>Performance</li></a>   
-        <a href = "ViewProject.php"><li>Projects</li></a>     
-           
-	</ul>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="/view/index.php"><img style="height: 75px;" src="../assets/media/Actemium.png"></a>
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navCollapse" aria-controls="navCollapse" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse justify-content-end ps-2 pe-2" id="navCollapse">
+    <div class="navbar-nav">
+      <?php
+      session_start();
+      if(isset($_SESSION['loggedIN'],$_SESSION['userRole']) && $_SESSION['userRole']=="Admin"){
+        require("../view/_inc/headerLoggedInAdmin.php");
+      } elseif(isset($_SESSION['loggedIN'],$_SESSION['userRole']) && $_SESSION['userRole']=="Employee") {
+        require("../headerLoggedInEmployee.php");
+      }
+      ?>
     </div>
   </div>
+</nav>
