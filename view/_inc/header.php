@@ -6,7 +6,6 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse justify-content-end ps-2 pe-2" id="navCollapse">
-    <div class="navbar-nav">
       <?php
       session_start();
       if(isset($_SESSION['loggedIN'],$_SESSION['userRole']) && $_SESSION['userRole']=="Admin"){
@@ -15,6 +14,12 @@
         require("../headerLoggedInEmployee.php");
       }
       ?>
-    </div>
   </div>
 </nav>
+<script>
+  function logout() {
+    $.post("../../controller/logout.php",{"action": "logout"});
+    alert("Logged Out");
+    window.location.replace("/view/index.php");
+  }
+</script>

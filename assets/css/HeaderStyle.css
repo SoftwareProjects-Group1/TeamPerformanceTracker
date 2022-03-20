@@ -59,3 +59,20 @@
     text-decoration: underline;
     background-color: rgba(0, 0, 0, 0.05);
 }
+
+.userArea {
+    font-family: 'Montserrat', sans-serif;
+    color: #004087;
+    margin-left: 70px;
+}
+
+.userArea button {
+    background-color: transparent;
+    border: none;
+    color: #004087;
+}
+
+.userArea button:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+}
