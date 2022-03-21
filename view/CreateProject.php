@@ -15,7 +15,7 @@
         <div class="card-body p-4 p-sm-5">
           <h5 class="card-title text-center mb-5 fw-light fs-5">Create A New Project</h5>
 
-          <form>
+          <form method="post">
             <div class="form-floating mb-3">
               <input type="text" class="form-control" id="projectName" placeholder="Project Name">
               <label for="floatingInput">Project Name</label>
@@ -36,6 +36,11 @@
               <input type="number" class="form-control" id="projectBudget" placeholder="Budget">
               <label for="floatingPassword">Budget</label>
             </div><br>
+
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" id="projectDescription" placeholder="Project Name">
+              <label for="floatingInput">Project Description</label>
+            </div>
             
             <div class="d-grid text-center">
               <button class="  btn btn-primary btn-login text-uppercase fw-bold" type="submit">Create Project</button>

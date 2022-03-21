@@ -69,7 +69,7 @@
                                         </table>    
                                     </div>
                                 </div>
-                                <a href="CreateProject.php">Create New Project</a>	                            
+                                <a href="CreateProject.php"  type="button" class="btn btn-primary">Create New Project</a>	                            
                             </main>
                         </div>
                     </div>
