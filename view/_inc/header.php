@@ -20,6 +20,7 @@
   function logout() {
     $.post("../controller/logout.php",{"action": "logout"});
     alert("Logged Out");
-    window.location.replace("/view/index.php");
+    
+    window.location.replace("../view/index.php");
   }
 </script>
