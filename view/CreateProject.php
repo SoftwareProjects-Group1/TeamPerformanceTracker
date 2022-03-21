@@ -9,7 +9,7 @@
       
       $bulk = new MongoDB\Driver\BulkWrite;
 
-      $document2 = ['projectID' => $num, 'projectName' => $_POST['name'], 'projectDescription' => $_POST['description'], 'projectBudget' => $_POST['budget'], 'ProjectManager' => $_POST['managername']];
+      $document2 = ['projectID' => $num, 'projectName' => $_POST['name'], 'projectDescription' => $_POST['description'], 'projectBudget' => (int)$_POST['budget'], 'ProjectManager' => $_POST['managername'], 'assignedTeamID' => (int)null];
 
       $_id3 = $bulk->insert($document2);
 

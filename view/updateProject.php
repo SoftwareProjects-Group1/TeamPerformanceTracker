@@ -17,20 +17,23 @@
 
 
     function update(){
-      $num = rand(1000,10000);
       
-      $bulk = new MongoDB\Driver\BulkWrite;
-
-      $document2 = ['projectID' => $num, 'projectName' => $_POST['name'], 'projectDescription' => $_POST['description'], 'projectBudget' => $_POST['budget'], 'ProjectManager' => $_POST['EmpStatus']];
-
-      $_id3 = $bulk->insert($document2);
-
-      var_dump($_id3);
+      $update = new MongoDB\Driver\BulkWrite;
+      $update->update(
+        ['projectName' => $_GET['ProjectName']],
+        ['$set' => ['projectName' => $_POST['name']]],
+        ['$set' => ['projectDescription' => $_POST['description']]],
+        ['$set' => ['projectBudget' => $_POST['budget']]],
+        ['$set' => ['ProjectManager' => $_POST['managername']]]
+      )  ;
 
       $m = new MongoDB\Driver\Manager('mongodb+srv://group1:fvAIyyCRp4PBaDPQ@clst01.to6hh.mongodb.net/projectDB?retryWrites=true&w=majority');
-      $result = $m->executeBulkWrite('projectDB.Projects', $bulk);
+
+      $m->executeBulkWrite('projectDB.Projects', $update);
 
     }
+    
+    
     $allFields = "yes";
     $errName = $errBudget = $errDesc = $errManager = "";
 
@@ -50,7 +53,7 @@
           $errDesc = "This field is mandatory";
           $allFields = "no";
       }
-      if ($_POST['EmpStatus']==""){
+      if ($_POST['managername']==""){
         $errManager = "This field is mandatory";
         $allFields = "no";
     }
@@ -59,7 +62,7 @@
   
       if($allFields == "yes")
       {
-        insert();
+        update();
       }
   }
 ?>
