@@ -14,6 +14,7 @@
             <td>Project Name</td>
              <td>Project Description</td>
                <td>Project Budget</td>
+               <td>Project Manager</td>
                                                 
                  </thead>  ";     
         $results=[];
@@ -25,6 +26,7 @@
             echo "<td>" . $row->projectName . "</td>";
             echo "<td>" . $row->projectDescription . "</td>"; 
             echo "<td>" . $row->projectBudget. "</td>"; 
+            echo "<td>" . $row->ProjectManager. "</td>"; 
             //echo "<td>" . $row->assignedTeamID . "</td>"; 
 
          echo "</tr>";
