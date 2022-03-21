@@ -38,7 +38,7 @@
     var uName = e.srcElement[0].value;
     var pWord = e.srcElement[1].value;
     var rem = e.srcElement[2].checked;
-    $.post('../../controller/checkLogin.php', { "action": "checkPass", "uname": uName, "pwd": pWord, "rem": rem }, function(data, status) { checkLogin(data, status) })
+    $.post('../controller/checkLogin.php', { "action": "checkPass", "uname": uName, "pwd": pWord, "rem": rem }, function(data, status) { checkLogin(data, status) })
     e.srcElement[0].value = "";
     e.srcElement[1].value = "";
   }

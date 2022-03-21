@@ -18,7 +18,7 @@
 </nav>
 <script>
   function logout() {
-    $.post("../../controller/logout.php",{"action": "logout"});
+    $.post("../controller/logout.php",{"action": "logout"});
     alert("Logged Out");
     window.location.replace("/view/index.php");
   }
