@@ -2,34 +2,7 @@
     require("../view/_inc/head.php");
     require("../view/_inc/header.php");
 
-    // include_once("checkLogin.php");
-
-    // $erroruname = $errorpwd = $invalidMesg = "";
-    
-    
-    //  if (isset($_POST['submit'])) {
-
-    //   if ($_POST['uname']=="") {
-    //       $erroruname = "Username is required";
-    //     } 
-        
-    //     if ($_POST['pwd']==null) {
-    //       $errorpwd = "Password is required";
-    //     }
-
-    //     if  ($_POST['pwd']!=null && $_POST['pwd']!=null){
-    //       $hi = verify();
-
-    //       if ($hi == null){
-    //         echo "null";
-    //       }
-    //       else{
-            
-    //         echo $hi;
-
-    //       }
-    //     }
-    //   } 
+   
 ?>
 
 <script>
