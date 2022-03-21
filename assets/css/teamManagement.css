@@ -98,3 +98,41 @@
     background-color: rgba(0, 0, 0, 0.05);
     cursor: pointer;
 }
+
+.engineerCB:checked+.engineerCBH {
+    background-color: rgba(0, 136, 204, 0.5);
+}
+
+.employeeTable {
+    table-layout: auto !important;
+}
+
+.employeeTableContainer {
+    max-height: 150px;
+    overflow-y: scroll;
+}
+
+.employeeTableRow {
+    border: 1px solid grey;
+}
+
+.employeeTableRow:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+}
+
+.employeeTableRowClicked {
+    background-color: rgba(0, 136, 204, 0.5)!important;
+}
+
+.employeeTableRowHeader {
+    border: 1px solid grey;
+}
+
+.employeeTableRowSpacer {
+    height: 10px;
+}
+
+.modalWidth {
+    max-width: 75%;
+}

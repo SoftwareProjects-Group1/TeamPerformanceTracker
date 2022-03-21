@@ -30,6 +30,35 @@ if(isset($_POST) && (isset($_POST['action']) && $_POST['action']=='getData')){
 if(isset($_POST) && (isset($_POST['action']) && $_POST['action']=='deleteTeam')){
     $teamID=$_POST['teamID'];
 
+    //Delete team from the teams collection
+    $bulk = new Mongo\BulkWrite;
+    $filter = ["teamID"=>(int)$teamID];
+    $bulk->delete($filter,['limit' => 1]);
+    $res = $CONN->executeBulkWrite('projectDB.Teams', $bulk);
+
+    //Unassign Employees from the team
+    $bulk = new Mongo\BulkWrite;
+    $filter = ["assignedTeam"=>(int)$teamID];
+    $bulk->update($filter, ['$pull'=>["assignedTeam"=>(int)$teamID]], ['multi' => true, 'upsert' => false]);
+    $res = $CONN->executeBulkWrite('projectDB.Employees', $bulk);
+
+    //Unassign Projects from the team
+    $bulk = new Mongo\BulkWrite;
+    $filter = ["assignedTeamID"=>(int)$teamID];
+    $bulk->update($filter, ['$set'=>["assignedTeamID"=>null]], ['multi' => true, 'upsert' => false]);
+    $res = $CONN->executeBulkWrite('projectDB.Projects', $bulk);
+
+    echo "true";
+}
+
+if(isset($_POST) && (isset($_POST['action']) && $_POST['action']=='getEmployees')){
+    $q = new Mongo\Query([],[]);
+    $employees=[];
+    $cursor = $CONN->executeQuery('projectDB.Employees',$q);
+    foreach($cursor as $team) {
+        $employees[]=$team;
+    }
+    echo json_encode($employees);
 }
 
 ?>
