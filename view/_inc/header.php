@@ -1,7 +1,7 @@
 </head>
 <body class="d-flex flex-column position-absolute h-100 w-100">
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="/view/index.php"><img style="height: 75px;" src="../assets/media/Actemium.png"></a>
+  <a class="navbar-brand" href="../view/index.php"><img style="height: 75px;" src="../assets/media/Actemium.png"></a>
   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navCollapse" aria-controls="navCollapse" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
