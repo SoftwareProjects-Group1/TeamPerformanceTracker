@@ -16,22 +16,10 @@
             }    
 
 
-    function update(){
+    
       
-      $update = new MongoDB\Driver\BulkWrite;
-      $update->update(
-        ['projectName' => $_GET['ProjectName']],
-        ['$set' => ['projectName' => $_POST['name']]],
-        ['$set' => ['projectDescription' => $_POST['description']]],
-        ['$set' => ['projectBudget' => $_POST['budget']]],
-        ['$set' => ['ProjectManager' => $_POST['managername']]]
-      )  ;
-
-      $m = new MongoDB\Driver\Manager('mongodb+srv://group1:fvAIyyCRp4PBaDPQ@clst01.to6hh.mongodb.net/projectDB?retryWrites=true&w=majority');
-
-      $m->executeBulkWrite('projectDB.Projects', $update);
-
-    }
+      
+    
     
     
     $allFields = "yes";
@@ -62,9 +50,24 @@
   
       if($allFields == "yes")
       {
-        update();
-      }
+        // $filter = ['ProjectName' => $_GET['ProjectName']];
+        // $document = ["projectName"=> $_GET['ProjectName'], "projectDescription"=> $_POST['description'], "projectBudget"=> (int)$_POST['budget'], "ProjectManager"=> $_POST['managername']];
+
+        // $bulk->update(
+        //     $filter,
+        //     $document, 
+        //     ['multi' => true]
+        // );
+        // $result = $m->executeBulkWrite('projectDB.Projects', $bulk);
+
+        $bulk = new \MongoDB\Driver\BulkWrite;
+        $filter = ["projectName"=>$_GET['ProjectName']];
+        $bulk->update($filter, ['$set'=>["projectDescription"=>$_POST['description']]], []);
+        $res = $m->executeBulkWrite('projectDB.Projects', $bulk);
+
+      
   }
+}
 ?>
 
          
