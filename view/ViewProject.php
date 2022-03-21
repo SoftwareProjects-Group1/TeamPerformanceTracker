@@ -3,7 +3,45 @@
 <?php
     require("../view/_inc/head.php");
     require("../view/_inc/header.php");
-?>
+
+        
+
+    function displayProjects() {
+        $m = new MongoDB\Driver\Manager('mongodb+srv://group1:fvAIyyCRp4PBaDPQ@clst01.to6hh.mongodb.net/projectDB?retryWrites=true&w=majority');
+        echo "<table class='table table-bordered table-striped'>";
+        echo "<thead>   
+           <td>Project ID</td>                    
+            <td>Project Name</td>
+             <td>Project Description</td>
+               <td>Project Budget</td>
+                                                
+                 </thead>  ";     
+        $results=[];
+        $q = new MongoDB\Driver\Query([],[]);
+        $cursor = $m->executeQuery('projectDB.Projects',$q);
+        foreach($cursor as $row) {
+            echo "<tr>";
+            echo "<td>" . $row->projectID. "</td>";
+            echo "<td>" . $row->projectName . "</td>";
+            echo "<td>" . $row->projectDescription . "</td>"; 
+            echo "<td>" . $row->projectBudget. "</td>"; 
+            //echo "<td>" . $row->assignedTeamID . "</td>"; 
+
+         echo "</tr>";
+        
+        
+        }
+        echo "<table>";
+
+        
+}
+
+        ?>
+        
+
+      
+
+
 
 <div class="main">    
     <div class="inner_main">
@@ -16,21 +54,16 @@
                                 <h2 class = "title" style = "padding-top:25px">View Projects</h2><br>
                                 <div class="row">
                                     <div class="col-10">
-                                        <table class="table table-bordered table-striped">
-                                            <thead>   
-                                                <td>Action</td>                    
-                                                <td>Project Manager</td>
-                                                <td>Project Name</td>
-                                                <td>Company</td>
-                                                <td>Current Progress</td>                                     
-                                            </thead>                    
-                                            <tr>                               
-                                                <td>Delete </td>	
-                                                <td>John Doe</td>	
-                                                <td>Do Things</td>
-                                                <td>Doe Co</td>	
-                                                <td>14%</td>			
-                                            </tr>                    
+                                                   
+                                                     
+                                                
+                                                <?php
+                                                    DisplayProjects();
+                                                 
+                                                 
+                                                 
+                                                 ?>
+                                                      
                                         </table>    
                                     </div>
                                 </div>
