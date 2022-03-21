@@ -1,21 +1,19 @@
 <?php
     require("../view/_inc/head.php");
     require("../view/_inc/header.php");
-
-
-    function getData(){
-        
         $m = new MongoDB\Driver\Manager('mongodb+srv://group1:fvAIyyCRp4PBaDPQ@clst01.to6hh.mongodb.net/projectDB?retryWrites=true&w=majority');
         $filter = [ 'projectName' => $_GET['ProjectName']]; 
 
         $query = new MongoDB\Driver\Query($filter);     
         $res = $m->executeQuery("projectDB.Projects", $query);
-
-        $pro = current($res->toArray());
-
-
-        print_r($pro);
-    }
+         foreach($res as $row) {
+            
+                $proID = $row->projectID;
+                $name = $row->projectName ;
+                $desc = $row->projectDescription ;
+                $budget = $row->projectBudget;
+                $manager = $row->ProjectManager;
+            }    
 
 
     function update(){
@@ -73,8 +71,6 @@
     <div class="inner_main">
     <section class="vh-100">
 <body>
-
-<?php getData(); ?>
   
 <div class="container">
   <div class="row">
@@ -85,36 +81,30 @@
 
           <form method="post">
             <div class="form-floating mb-3">
-              <input type="text" class="form-control" id="projectName" placeholder="Project Name" name="name">
+              <input type="text" class="form-control" id="projectName" placeholder="Project Name" name="name" value = "<?php echo $name?>">
               <label for="floatingInput">Project Name</label>
               <span class="text-danger"><?php echo $errName; ?></span>
 
             </div>
 
-            <div class="form-floating mb-3">                    
-              <select class="select form-control" name="EmpStatus">
-                <option value="0" disabled>Select Team</option>
-                <option value="1">Manager 1</option>
-                <option value="2">Manager 2</option>
-                <option value="3">Manager 3</option>
-                <option value="4">Manager 4</option>
-              </select>
-              <span class="text-danger"><?php echo $errDesc; ?></span>
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" id="managername" placeholder="Manager name" name="managername" value ="<?php echo $manager?>">
+              <label for="floatingInput">Manager name</label>
+              <span class="text-danger"><?php echo $errName; ?></span>
 
 
-              <?php?>
-              <label class="form-label select-label">Select Project Manager</label>
-            </div>    
+              
+           </div>    
             
             <div class="form-floating mb-3">
-              <input type="number" class="form-control" id="projectBudget" placeholder="Budget" name="budget">
+              <input type="number" class="form-control" id="projectBudget" placeholder="Budget" name="budget" value = "<?php echo $budget?>">
               <label for="floatingPassword">Budget</label>
               <span class="text-danger"><?php echo $errBudget; ?></span>
 
             </div>
 
             <div class="form-floating mb-3">
-              <input type="text" class="form-control" id="projectDescription" placeholder="Project Name" name="description">
+              <input type="text" class="form-control" id="projectDescription" placeholder="Project Name" name="description" value = "<?php echo $desc?>">
               <label for="floatingInput">Project Description</label>
               <span class="text-danger"><?php echo $errDesc; ?></span>
 

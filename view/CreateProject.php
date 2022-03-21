@@ -9,7 +9,7 @@
       
       $bulk = new MongoDB\Driver\BulkWrite;
 
-      $document2 = ['projectID' => $num, 'projectName' => $_POST['name'], 'projectDescription' => $_POST['description'], 'projectBudget' => $_POST['budget'], 'ProjectManager' => $_POST['EmpStatus']];
+      $document2 = ['projectID' => $num, 'projectName' => $_POST['name'], 'projectDescription' => $_POST['description'], 'projectBudget' => $_POST['budget'], 'ProjectManager' => $_POST['managername']];
 
       $_id3 = $bulk->insert($document2);
 
@@ -38,7 +38,7 @@
           $errDesc = "This field is mandatory";
           $allFields = "no";
       }
-      if ($_POST['EmpStatus']==""){
+      if ($_POST['managername']==""){
         $errManager = "This field is mandatory";
         $allFields = "no";
     }
@@ -75,19 +75,14 @@
 
             </div>
 
-            <div class="form-floating mb-3">                    
-              <select class="select form-control" name="EmpStatus">
-                <option value="0" disabled>Select Team</option>
-                <option value="1">Manager 1</option>
-                <option value="2">Manager 2</option>
-                <option value="3">Manager 3</option>
-                <option value="4">Manager 4</option>
-              </select>
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" id="managername" placeholder="Manager name" name="managername" value ="">
+              <label for="floatingInput">Manager name</label>
+              <span class="text-danger"><?php echo $errName; ?></span>
               <span class="text-danger"><?php echo $errDesc; ?></span>
 
 
-              <?php?>
-              <label class="form-label select-label">Select Project Manager</label>
+              
             </div>    
             
             <div class="form-floating mb-3">
