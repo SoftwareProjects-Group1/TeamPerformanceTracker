@@ -11,7 +11,7 @@
       } 
 
       if  ($_POST['email']!=null){
-        echo "Password Reset Function Here";
+        echo "Password Reset Email Function";
         header("Location: forgotPasswordSummary.php"); 
       }
     }
