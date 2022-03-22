@@ -42,7 +42,7 @@
             <form onsubmit="submitForm(event)" id="loginForm">
               
               <div class="form-floating mb-3">
-                <input class="form-control" name="uname" placeholder="name@example.com" required value="<?php if(isset($_COOKIE['username'])){echo $_COOKIE['username'];} ?>">
+                <input class="form-control" name="uname" placeholder="name@example.com" required value="<?php if(isset($_COOKIE['username'])){echo $_COOKIE['username'];}?>">
                 <label for="floatingInput">Username</label>
                 <span class="text-danger"></span>
 
@@ -58,7 +58,7 @@
               </div>
 
               <div class="form-check mb-3">
-                <input class="form-check-input" type="checkbox" checked="<?php if(isset($_COOKIE['checked'])){echo $_COOKIE['checked'];} ?>" id="rememberPasswordCheck">
+                <input class="form-check-input" type="checkbox" <?php if(isset($_COOKIE['checked'])){echo "checked\"".$_COOKIE['checked']."\"";} ?> id="rememberPasswordCheck">
                 <label class="form-check-label" for="rememberPasswordCheck">
                   Remember password
                 </label>

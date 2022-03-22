@@ -99,37 +99,57 @@
     cursor: pointer;
 }
 
-.engineerCB:checked+.engineerCBH {
-    background-color: rgba(0, 136, 204, 0.5);
-}
-
-.employeeTable {
+.table {
     table-layout: auto !important;
 }
 
-.employeeTableContainer {
+.tableContainer {
     max-height: 150px;
     overflow-y: scroll;
 }
 
-.employeeTableRow {
+.tableRowE {
     border: 1px solid grey;
 }
 
-.employeeTableRow:hover {
+.tableRowP {
+    border: 1px solid grey;
+}
+
+.tableRowE:hover {
     background-color: rgba(0, 0, 0, 0.05);
     cursor: pointer;
 }
 
-.employeeTableRowClicked {
+.tableRowP:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+}
+
+.tableRowClicked {
     background-color: rgba(0, 136, 204, 0.5)!important;
 }
 
-.employeeTableRowHeader {
+.tableRowHeader {
     border: 1px solid grey;
 }
 
-.employeeTableRowSpacer {
+.tableHeaderE:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+}
+
+.tableHeaderP:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+}
+
+.tableHeader:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+}
+
+.tableRowSpacer {
     height: 10px;
 }
 

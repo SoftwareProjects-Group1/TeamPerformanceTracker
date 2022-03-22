@@ -23,8 +23,13 @@ function displayData(data) {
         var teamID = team["teamID"];
         var projects = "";
         //Runs through all projects in the database, selects only those assigned to the current team its working through, creates a html element to present any projects assigned
-        Object.values(data["projects"]).filter(e => e["assignedTeamID"] == teamID).forEach(project => {
-            projects += `<div id="${project["projectID"]}" class="projectPod"><span>${project["projectName"]}</span><span class="d-none">${project["projectDescription"]}</span></div>`
+        Object.values(data["projects"]).filter(e => e["assignedTeamID"] == (teamID)).forEach(project => {
+            projects += `
+            <div id="${project["projectID"]}" class="projectPod">
+                <span>${project["projectName"]}</span><span class="d-none">${project["projectDescription"]}</span>
+                <button data-toggle="tooltip" data-placement="top" title="Remove Project" id="${project["projectID"]}-DEL" class="BTN rounded-3"><i class="fa-solid fa-x"></i></button>
+            </div>
+            `
         })
         var engineers = "";
         //Runs through all employees in the database, selectes only those assigned to the current team its working through, creates a html element to present any employees assigned
@@ -102,6 +107,7 @@ function confirmDeleteTeam() {
 }
 
 var employeeListData;
+var projectListData;
 
 async function createTeamPopup() {
     //Posts synchronously to the controller to get all employees
@@ -110,50 +116,86 @@ async function createTeamPopup() {
         type: 'POST',
         data: { "action": "getEmployees" }
     });
+    projectListData = await $.ajax({
+        url: '../controller/teamManagement.php',
+        type: 'POST',
+        data: { "action": "getProjects" }
+    });
     //Parses the data and sortes alphabetically
     employeeListData = JSON.parse(employeeListData);
-    data = employeeListData;
-    data.sort((a, b) => a['employeeName'].localeCompare(b['employeeName']));
-    var checkBoxes = "";
+    projectListData = JSON.parse(projectListData);
+    dataE = employeeListData;
+    dataP = projectListData;
+    dataE.sort((a, b) => a['employeeName'].localeCompare(b['employeeName']));
+    dataP.sort((a, b) => a['projectName'].localeCompare(b['projectName']));
+    var checkBoxesE = "";
+    var checkBoxesP = "";
     //Creates a checkbox for each employee, these are hidden but toggled whenever the employee html element is pressed
-    data.forEach(employee => { checkBoxes += `<input class="d-none" type="checkbox" id="${employee["employeeID"]}-ECB">` });
+    dataE.forEach(employee => { checkBoxesE += `<input name="${employee["employeeID"]}-ECBN" class="d-none" type="checkbox" id="${employee["employeeID"]}-ECB">` });
+    dataP.forEach(project => { checkBoxesP += `<input name="${project["projectID"]}-PCBN" class="d-none" type="checkbox" id="${project["projectID"]}-PCB">` });
     //Sets the modal content, the table is automatically filled out containing all the employees that were fetched
     $('#modalTitle')[0].innerText = "Create Team";
     $('#modalContent')[0].innerHTML = `
-    <form>
+    <form method="post" id="createTeamForm">
         <div class="form-floating mb-3">
         <input id="teamNameInput" class="form-control" name="tName" placeholder="Team Name" required >
         <label for="teamNameInput">Team Name</label>
         </div>
         <hr>
-        Projects
-        <hr>
-        <div>Engineers</div>
-        <div class="employeeTableContainer p-1">
-            <table class="employeeTable w-100">
-                <tbody id="employeeTB">
-                    <tr class="employeeTableRowHeader">
-                        <th class="employeeTableHeader" id="1" class="pt-1 pb-1 ps-2">Employee Name</th>
-                        <th class="employeeTableHeader" id="2" class="pt-1 pb-1">Employee Role</th>
-                        <th class="employeeTableHeader" id="3" class="pt-1 pb-1">Assigned Number of Teams</th>
+        <div>Projects</div>
+        <div class="tableContainer p-1">
+            <table class="tableContainerTable w-100">
+                <tbody id="projectTB">
+                    <tr class="tableRowHeader">
+                        <th class="tableHeaderP" id="1P" class="pt-1 pb-1 ps-2">Project Name</th>
+                        <th class="tableHeaderP" id="2P" class="pt-1 pb-1">Project Description</th>
                     </tr>
-                    ${createEmployeeList(data)}
+                    ${createProjectList(dataP)}
                 </tbody>
             </table>
-        </div
-        <div>${checkBoxes}</div>
+        </div>
+        <hr>
+        <div>Engineers</div>
+        <div class="tableContainer p-1">
+            <table class="tableContainerTable w-100">
+                <tbody id="employeeTB">
+                    <tr class="tableRowHeader">
+                        <th class="tableHeaderE" id="1E" class="pt-1 pb-1 ps-2">Employee Name</th>
+                        <th class="tableHeaderE" id="2E" class="pt-1 pb-1">Employee Role</th>
+                    </tr>
+                    ${createEmployeeList(dataE)}
+                </tbody>
+            </table>
+        </div>
+        <hr>
+        <div>${checkBoxesE}</div>
+        <div>${checkBoxesP}</div>
+        <button class="btn btn-success w-100">Create Team</button>
     </form>
     `;
     //Selects all employee's being displayed and adds onclick function, function toggles visual colouring to show selection aswell as the earlier added checkboxes
-    $('.employeeTableRow').each(function(i, obj) {
+    $('.tableRowE').each(function(i, obj) {
         $(obj).click(function() {
-            $(this).toggleClass("employeeTableRowClicked");
+            $(this).toggleClass("tableRowClicked");
             $(`#${$(this)[0].id.replace("-EID", "-ECB")}`).click();
         });
     });
+    $('.tableRowP').each(function(i, obj) {
+        $(obj).click(function() {
+            $(this).toggleClass("tableRowClicked");
+            $(`#${$(this)[0].id.replace("-PID", "-PCB")}`).click();
+        });
+    });
     //Adds an onclick to all table header elements that will run the sort function when clicked
-    $('.employeeTableHeader').each(function(i, obj) {
-        $(obj).click(function() { sortEmployeeTable(this.id) });
+    $('.tableHeaderE').each(function(i, obj) {
+        $(obj).click(function() { sortTableE(this.id) });
+    });
+    $('.tableHeaderP').each(function(i, obj) {
+        $(obj).click(function() { sortTableP(this.id) });
+    });
+    $('#createTeamForm').submit((event) => {
+        event.preventDefault();
+        handleCreateTeamPost($('#createTeamForm').serializeArray());
     });
     $('#modalButton').hide();
     $('#alertModal').modal('show')
@@ -164,78 +206,146 @@ function createEmployeeList(res) {
     var employees = "";
     res.forEach(employee => {
         employees += `
-        <tr class="employeeTableRowSpacer"><td></td></tr>
-        <tr class="employeeTableRow" id="${employee["employeeID"]}-EID">
+        <tr class="tableRowSpacer"><td></td></tr>
+        <tr class="tableRowE" id="${employee["employeeID"]}-EID">
             <td class="pt-1 pb-1 ps-2">
                 <span>${employee["employeeName"]}</span>
             </td>
             <td class="pt-1 pb-1">
                 <span>${employee["employeeRole"]}</span>
             </td>
-            <td class="pt-1 pb-1">
-                <span>${employee["assignedTeam"].length-1}</span>
-            </td>
-            
         </tr>
         `
     })
     return employees;
 }
-var currentSort = 1;
 
-function sortEmployeeTable(sortType) {
+function createProjectList(res) {
+    //dynamically creates a set of employees to be put into a html table with data passed to it
+    var projects = "";
+    res.forEach(project => {
+        projects += `
+        <tr class="tableRowSpacer"><td></td></tr>
+        <tr class="tableRowP" id="${project["projectID"]}-PID">
+            <td class="pt-1 pb-1 ps-2">
+                <span>${project["projectName"]}</span>
+            </td>
+            <td class="pt-1 pb-1">
+                <span>${project["projectDescription"]}</span>
+            </td>
+        </tr>
+        `
+    })
+    return projects;
+}
+
+var currentSortE = "1E";
+var currentSortP = "1P";
+
+function sortTableE(sortType) {
     //When the header items are pressed this runs, this will sort the employees in 3 different ways and then of those 3 it can do ascending and descending
     //The sorted data is passed to the employee element creation function above and the returned data is inserted into the table
-    if (sortType == 1) {
+    if (sortType == "1E") {
         data = employeeListData;
         data.sort((a, b) => a['employeeName'].localeCompare(b['employeeName']));
-        if (currentSort == sortType) {
+        if (currentSortE == sortType) {
             data = data.reverse();
-            sortEmployeeTableData(data);
-            currentSort = 0;
+            sortTableDataE(data);
+            currentSortE = "0E";
             return;
         }
-        sortEmployeeTableData(data);
-        currentSort = 1;
+        sortTableDataE(data);
+        currentSortE = "1E";
     }
-    if (sortType == 2) {
+    if (sortType == "2E") {
         data = employeeListData;
         data.sort((a, b) => a['employeeRole'].localeCompare(b['employeeRole']));
-        if (currentSort == sortType) {
+        if (currentSortE == sortType) {
             data = data.reverse();
-            sortEmployeeTableData(data);
-            currentSort = 0;
+            sortTableDataE(data);
+            currentSortE = "0E";
             return;
         }
-        sortEmployeeTableData(data);
-        currentSort = 2;
-    }
-    if (sortType == 3) {
-        data = employeeListData;
-        data.sort((a, b) => { return ((a['assignedTeam'].length - 1) - (b['assignedTeam'].length - 1)) });
-        if (currentSort == sortType) {
-            data = data.reverse();
-            sortEmployeeTableData(data);
-            currentSort = 0;
-            return;
-        }
-        sortEmployeeTableData(data);
-        currentSort = 3;
+        sortTableDataE(data);
+        currentSortE = "2E";
     }
 }
 
-function sortEmployeeTableData(data) {
+function sortTableDataE(data) {
     //This readds the needed onclicks to the table once the new sorted elements have been added
-    $('#employeeTB').find('.employeeTableRowSpacer').remove()
-    $('#employeeTB').find('.employeeTableRow').remove()
+    $('#employeeTB').find('.tableRowSpacer').remove()
+    $('#employeeTB').find('.tableRowE').remove()
     $('#employeeTB')[0].innerHTML += `${createEmployeeList(data)}`;
-    $('.employeeTableHeader').each(function(i, obj) {
-        $(obj).click(function() { sortEmployeeTable(this.id) });
+    $('.tableHeaderE').each(function(i, obj) {
+        $(obj).click(function() { sortTableE(this.id) });
     });
-    $('.employeeTableRow').each(function(i, obj) {
+    $('.tableRowE').each(function(i, obj) {
         $(obj).click(function() {
-            $(this).toggleClass("employeeTableRowClicked");
+            $(this).toggleClass("tableRowClicked");
             $(`#${$(this)[0].id.replace("-EID", "-ECB")}`).click();
         });
     });
+}
+
+function sortTableP(sortType) {
+    //When the header items are pressed this runs, this will sort the employees in 3 different ways and then of those 3 it can do ascending and descending
+    //The sorted data is passed to the employee element creation function above and the returned data is inserted into the table
+    if (sortType == "1P") {
+        data = projectListData;
+        data.sort((a, b) => a['projectName'].localeCompare(b['projectName']));
+        if (currentSortP == sortType) {
+            data = data.reverse();
+            sortTableDataP(data);
+            currentSortP = "0P";
+            return;
+        }
+        sortTableDataP(data);
+        currentSortP = "1P";
+    }
+    if (sortType == "2P") {
+        data = projectListData;
+        data.sort((a, b) => a['projectDescription'].localeCompare(b['projectDescription']));
+        if (currentSortP == sortType) {
+            data = data.reverse();
+            sortTableDataP(data);
+            currentSortP = "0P";
+            return;
+        }
+        sortTableDataP(data);
+        currentSortP = "2P";
+    }
+}
+
+function sortTableDataP(data) {
+    //This readds the needed onclicks to the table once the new sorted elements have been added
+    $('#projectTB').find('.tableRowSpacer').remove()
+    $('#projectTB').find('.tableRowP').remove()
+    $('#projectTB')[0].innerHTML += `${createProjectList(data)}`;
+    $('.tableHeaderP').each(function(i, obj) {
+        $(obj).click(function() { sortTableP(this.id) });
+    });
+    $('.tableRowP').each(function(i, obj) {
+        $(obj).click(function() {
+            $(this).toggleClass("tableRowClicked");
+            $(`#${$(this)[0].id.replace("-PID", "-PCB")}`).click();
+        });
+    });
+}
+
+function handleCreateTeamPost(data) {
+    var teamName;
+    var projects = [];
+    var employees = [];
+    data.forEach(val => {
+        if (val.name.includes("tName")) { teamName = val.value }
+        if (val.name.includes("ECBN")) { employees.push(val.name.replace("-ECBN", "")) }
+        if (val.name.includes("PCBN")) { projects.push(val.name.replace("-PCBN", "")) }
+    })
+    $.post('../controller/teamManagement.php', {
+            "action": "createTeam",
+            "teamName": teamName,
+            "projects": projects,
+            "employees": employees
+        },
+        function(data, status) { console.log(data, status) })
 }
