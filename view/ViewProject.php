@@ -15,7 +15,7 @@
              <td>Project Description</td>
                <td>Project Budget</td>
                <td>Project Manager</td>
-                    <td> Action <td>                       
+                    <td> Action </td>                       
                  </thead>  ";     
         $results=[];
         $q = new MongoDB\Driver\Query([],[]);
