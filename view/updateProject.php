@@ -1,6 +1,7 @@
 <?php
     require("../view/_inc/head.php");
     require("../view/_inc/header.php");
+    
         $m = new MongoDB\Driver\Manager('mongodb+srv://group1:fvAIyyCRp4PBaDPQ@clst01.to6hh.mongodb.net/projectDB?retryWrites=true&w=majority');
         $filter = [ 'projectName' => $_GET['ProjectName']]; 
 
@@ -13,14 +14,7 @@
                 $desc = $row->projectDescription ;
                 $budget = $row->projectBudget;
                 $manager = $row->ProjectManager;
-            }    
-
-
-    
-      
-      
-    
-    
+            }  
     
     $allFields = "yes";
     $errName = $errBudget = $errDesc = $errManager = "";
@@ -50,23 +44,32 @@
   
       if($allFields == "yes")
       {
-        // $filter = ['ProjectName' => $_GET['ProjectName']];
-        // $document = ["projectName"=> $_GET['ProjectName'], "projectDescription"=> $_POST['description'], "projectBudget"=> (int)$_POST['budget'], "ProjectManager"=> $_POST['managername']];
-
-        // $bulk->update(
-        //     $filter,
-        //     $document, 
-        //     ['multi' => true]
-        // );
-        // $result = $m->executeBulkWrite('projectDB.Projects', $bulk);
 
         $bulk = new \MongoDB\Driver\BulkWrite;
         $filter = ["projectName"=>$_GET['ProjectName']];
         $bulk->update($filter, ['$set'=>["projectDescription"=>$_POST['description']]], []);
+        $bulk->update($filter, ['$set'=>["projectName"=>$_POST['name']]], []);
+        $bulk->update($filter, ['$set'=>["projectBudget"=>$_POST['budget']]], []);
+        $bulk->update($filter, ['$set'=>["ProjectManager"=>$_POST['managername']]], []);
+
+
         $res = $m->executeBulkWrite('projectDB.Projects', $bulk);
+        header("Location:viewProject.php");
+
 
       
   }
+}
+if (isset($_POST["delete"])){
+  echo "smack";
+  $bulk = new \MongoDB\Driver\BulkWrite;
+  $filter = ["projectName"=>$_GET['ProjectName']];
+  $bulk->delete($filter, []);
+
+  $res = $m->executeBulkWrite('projectDB.Projects', $bulk);
+  header("Location:viewProject.php?Deleted=true");
+
+
 }
 ?>
 
@@ -117,7 +120,11 @@
             </div>
             
             <div class="d-grid text-center">
-              <button class="  btn btn-primary btn-login text-uppercase fw-bold" type="submit" name="submit">Update</button>
+              <button class="  btn btn-primary btn-login text-uppercase fw-bold" type="submit" name="submit" >Update</button>
+            </div><br>
+
+            <div class="d-grid text-center">
+              <button class="  btn btn-primary btn-login text-uppercase fw-bold" type="delete" name="delete" onclick="return confirm('Are you sure you wish to delete?')">Delete</button>
             </div><br>
 
             <div class="d-grid text-center">

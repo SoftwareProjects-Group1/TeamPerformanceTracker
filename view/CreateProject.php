@@ -47,7 +47,23 @@
   
       if($allFields == "yes")
       {
-        insert();
+        $m = new MongoDB\Driver\Manager('mongodb+srv://group1:fvAIyyCRp4PBaDPQ@clst01.to6hh.mongodb.net/projectDB?retryWrites=true&w=majority');
+
+        $filter = [ 'projectName' => $_POST['name']]; 
+
+        $query = new MongoDB\Driver\Query($filter);     
+        $res = $m->executeQuery("projectDB.Projects", $query);
+        if ($res != null){
+          echo '<div class="alert alert-danger" role="alert">
+          Already Project Named '.$_POST['name'].' In The Database
+        </div>';
+        } 
+        else {
+          insert();
+          header("Location:viewProject.php?Created=True");
+        }
+        
+
       }
   }
 ?>

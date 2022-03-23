@@ -4,6 +4,8 @@
     require("../view/_inc/head.php");
     require("../view/_inc/header.php");
 
+    
+
         
 
     function displayProjects() {
@@ -47,10 +49,29 @@
 <div class="main">    
     
     <div class="inner_main">
-
+    <?php if (isset($_GET['Deleted'])){
+            echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Project Deleted</strong>
+            <a href = "viewProject.php" "type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </a>
+          </div>';
+    }
+    if (isset($_GET['Created'])){
+        echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Project Created</strong>
+        <a href = "viewProject.php" "type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </a>
+      </div>';
+}
+    
+    ?>
     
     
         <div class="container">
+
+        
 
             <div class="row">
                 <div class="col-sm-9 col-md-7 col-lg-12 mx-auto">
