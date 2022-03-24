@@ -3,6 +3,8 @@
 <a id="navLink" href="EmployeesPage.php">Employees</a>    
 <a id="navLink" href="performancePage.php">Performance</a>   
 <a id="navLink" href="ViewProject.php">Projects</a>
+<a id="navLink" href="manageUsers.php">Users</a>
+
 </div>
 <div class="userArea">
     <span><?php

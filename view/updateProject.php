@@ -54,14 +54,11 @@
 
 
         $res = $m->executeBulkWrite('projectDB.Projects', $bulk);
-        header("Location:viewProject.php");
+        header("Location:viewProject.php?Updated=True");
 
-
-      
-  }
 }
+    }
 if (isset($_POST["delete"])){
-  echo "smack";
   $bulk = new \MongoDB\Driver\BulkWrite;
   $filter = ["projectName"=>$_GET['ProjectName']];
   $bulk->delete($filter, []);
@@ -70,7 +67,7 @@ if (isset($_POST["delete"])){
   header("Location:viewProject.php?Deleted=true");
 
 
-}
+} 
 ?>
 
          

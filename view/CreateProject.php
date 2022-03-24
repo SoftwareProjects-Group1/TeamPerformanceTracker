@@ -53,18 +53,25 @@
 
         $query = new MongoDB\Driver\Query($filter);     
         $res = $m->executeQuery("projectDB.Projects", $query);
-        if ($res != null){
-          echo '<div class="alert alert-danger" role="alert">
-          Already Project Named '.$_POST['name'].' In The Database
-        </div>';
-        } 
-        else {
+
+        if (!count($res->toarray())){
           insert();
-          header("Location:viewProject.php?Created=True");
-        }
+          header("Location:ViewProject.php?Created=True");
+      }
+          else {
+                  echo '<div class="alert alert-danger" role="alert">
+              Already Username "'.$_POST['name'].'" In The Database
+              </div>';
+              
+              }
+        
+       
+       
+      }
+      
         
 
-      }
+      
   }
 ?>
 
@@ -120,7 +127,7 @@
             </div><br>
 
             <div class="d-grid text-center">
-              <button class="  btn btn-secondary btn-login text-uppercase fw-bold" type="submit" >Return To Dashboard</button>
+              <a href = "ViewProject.php" class="  btn btn-secondary btn-login text-uppercase fw-bold" type="submit" >Return To Dashboard</a>
             </div>
           </form>
 
