@@ -20,6 +20,21 @@
     }
      
 ?>
+
+<script>
+function toggleVisibility() {
+  var x = document.getElementById("password");
+  var y = document.getElementById("confirmPassword");
+  if (x.type === "password" || y.type === "password") {
+    x.type = "text";
+    y.type = "text";
+  } else {
+    x.type = "password";
+    y.type = "password";
+  }
+}
+</script>
+
 <div class="main">
     <div class="inner_main">
 
@@ -44,6 +59,8 @@
                 <label for="floatingInput">Confirm Password</label>
                 <span class="text-danger"><?php echo $missingPasswordConfirm; ?></span>
               </div>
+
+              <input type="checkbox" onclick="toggleVisibility()"> Show Passwords
 
               <hr class="my-4">
 
