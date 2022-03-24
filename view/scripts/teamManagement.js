@@ -4,10 +4,7 @@ $(document).ready(function() {
 });
 
 function getData() {
-<<<<<<< HEAD
-=======
     //Posts to the team management controller, the action is getting team data
->>>>>>> 7c1543049215168ee99e98cd8f833424fa141cd9
     $.post('../controller/teamManagement.php', { "action": "getData" }, function(data, status) { checkData(data, status) })
 }
 
