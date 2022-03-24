@@ -2,34 +2,7 @@
     require("../view/_inc/head.php");
     require("../view/_inc/header.php");
 
-    // include_once("checkLogin.php");
-
-    // $erroruname = $errorpwd = $invalidMesg = "";
-    
-    
-    //  if (isset($_POST['submit'])) {
-
-    //   if ($_POST['uname']=="") {
-    //       $erroruname = "Username is required";
-    //     } 
-        
-    //     if ($_POST['pwd']==null) {
-    //       $errorpwd = "Password is required";
-    //     }
-
-    //     if  ($_POST['pwd']!=null && $_POST['pwd']!=null){
-    //       $hi = verify();
-
-    //       if ($hi == null){
-    //         echo "null";
-    //       }
-    //       else{
-            
-    //         echo $hi;
-
-    //       }
-    //     }
-    //   } 
+   
 ?>
 
 <script>
@@ -69,7 +42,7 @@
             <form onsubmit="submitForm(event)" id="loginForm">
               
               <div class="form-floating mb-3">
-                <input class="form-control" name="uname" placeholder="name@example.com" required value="<?php if(isset($_COOKIE['username'])){echo $_COOKIE['username'];} ?>">
+                <input class="form-control" name="uname" placeholder="name@example.com" required value="<?php if(isset($_COOKIE['username'])){echo $_COOKIE['username'];}?>">
                 <label for="floatingInput">Username</label>
                 <span class="text-danger"></span>
 
@@ -85,7 +58,7 @@
               </div>
 
               <div class="form-check mb-3">
-                <input class="form-check-input" type="checkbox" checked="<?php if(isset($_COOKIE['checked'])){echo $_COOKIE['checked'];} ?>" id="rememberPasswordCheck">
+                <input class="form-check-input" type="checkbox" <?php if(isset($_COOKIE['checked'])){echo "checked\"".$_COOKIE['checked']."\"";} ?> id="rememberPasswordCheck">
                 <label class="form-check-label" for="rememberPasswordCheck">
                   Remember password
                 </label>

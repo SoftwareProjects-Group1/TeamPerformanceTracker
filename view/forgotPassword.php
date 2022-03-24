@@ -6,13 +6,35 @@
     
     if (isset($_POST['submit'])) {
 
-      if ($_POST['email']=="") {
-          $missingEmail = "Email is required";
-      } 
+      if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+        $missingEmail = "Invalid email address";
+      }
+      else {
+        if  ($_POST['email']!=null){
 
-      if  ($_POST['email']!=null){
-        echo "Password Reset Function Here";
-        header("Location: forgotPasswordSummary.php"); 
+          require("phpmailer/PHPMailer.php");
+          require("phpmailer/SMTP.php");
+          require("phpmailer/Exception.php");
+      
+          $mail = new PHPMailer\PHPMailer\PHPMailer();
+          $mail->IsSMTP(); 
+      
+          $mail->SMTPDebug = 1; 
+          $mail->SMTPAuth = true; 
+          $mail->SMTPSecure = 'ssl'; 
+          $mail->Host = "smtp.gmail.com";
+          $mail->Port = 465; 
+          $mail->IsHTML(true);
+          $mail->Username = "actemiumproject@gmail.com";
+          $mail->Password = "nzw*FMZ@zcm9rby6vwa";
+          $mail->SetFrom("actemiumproject@gmail.com");
+          $mail->Subject = "Actemium - Password Reset";
+          $mail->Body = "Test";
+          $mail->AddAddress($_POST['email']);
+          $mail->Send();
+  
+          header("Location: forgotPasswordSummary.php"); 
+        }
       }
     }
      

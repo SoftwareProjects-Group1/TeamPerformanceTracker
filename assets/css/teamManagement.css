@@ -98,3 +98,61 @@
     background-color: rgba(0, 0, 0, 0.05);
     cursor: pointer;
 }
+
+.table {
+    table-layout: auto !important;
+}
+
+.tableContainer {
+    max-height: 150px;
+    overflow-y: scroll;
+}
+
+.tableRowE {
+    border: 1px solid grey;
+}
+
+.tableRowP {
+    border: 1px solid grey;
+}
+
+.tableRowE:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+}
+
+.tableRowP:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+}
+
+.tableRowClicked {
+    background-color: rgba(0, 136, 204, 0.5)!important;
+}
+
+.tableRowHeader {
+    border: 1px solid grey;
+}
+
+.tableHeaderE:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+}
+
+.tableHeaderP:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+}
+
+.tableHeader:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+}
+
+.tableRowSpacer {
+    height: 10px;
+}
+
+.modalWidth {
+    max-width: 75%;
+}
