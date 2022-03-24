@@ -2,8 +2,8 @@
     require("../view/_inc/head.php");
     require("../view/_inc/header.php");
 
-    $missingPassword = $missingPasswordConfirm = "";
-    
+    $missingPassword = $missingPasswordConfirm = $passwordMismatch = "";
+
     if (isset($_POST['submit'])) {
 
       if ($_POST['password']=="") {
@@ -12,10 +12,15 @@
 
       if ($_POST['confirmPassword']=="") {
         $missingPasswordConfirm = "Please confirm your password";
-    } 
+      }
 
-      if  ($_POST['password']!=null && $_POST['confirmPassword']!=null){
-        echo "Password Reset Function Here";
+      if ($_POST['password'] != $_POST['confirmPassword']) {
+        $passwordMismatch = "Passwords don't match";
+      }
+      else {
+        if  ($_POST['password']!=null && $_POST['confirmPassword']!=null){
+          echo "Password Reset Function Here";
+        }
       }
     }
      
@@ -58,6 +63,7 @@ function toggleVisibility() {
                 <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password">
                 <label for="floatingInput">Confirm Password</label>
                 <span class="text-danger"><?php echo $missingPasswordConfirm; ?></span>
+                <span class="text-danger"><?php echo $passwordMismatch; ?></span>
               </div>
 
               <input type="checkbox" onclick="toggleVisibility()"> Show Passwords
