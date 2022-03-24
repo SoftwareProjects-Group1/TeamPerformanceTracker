@@ -38,7 +38,7 @@
     var uName = e.srcElement[0].value;
     var pWord = e.srcElement[1].value;
     var rem = e.srcElement[2].checked;
-    $.post('../../controller/checkLogin.php', { "action": "checkPass", "uname": uName, "pwd": pWord, "rem": rem }, function(data, status) { checkLogin(data, status) })
+    $.post('../controller/checkLogin.php', { "action": "checkPass", "uname": uName, "pwd": pWord, "rem": rem }, function(data, status) { checkLogin(data, status) })
     e.srcElement[0].value = "";
     e.srcElement[1].value = "";
   }
@@ -48,8 +48,8 @@
     if(status!="success"){alert("Can't login at this time");return;}
     if(data[0]==false){alert("Bad Login, Try Again")}
     if(data[0]==true){
-      if(data[1]=="Admin"){window.location.replace("/view/teamManagement.php")}
-      if(data[1]=="Employee"){window.location.replace("/view/personalPerformance.php")}
+      if(data[1]=="Admin"){window.location.replace("../view/teamManagement.php")}
+      if(data[1]=="Employee"){window.location.replace("../view/personalPerformance.php")}
     }
   }
 </script>
@@ -92,8 +92,7 @@
               </div>
 
               <div class="d-grid text-center">
-                <button type="submit" value="Login" name ="submit" class="btn btn-primary btn-login text-uppercase fw-bold">Sign
-                  in</button>
+                <button type="submit" value="Login" name ="submit" class="btn btn-primary btn-login text-uppercase fw-bold">Sign in</button>
               </div>
               </form>
 

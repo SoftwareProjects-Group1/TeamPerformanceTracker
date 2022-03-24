@@ -9,22 +9,21 @@ if(isset($GLOBALS['DBConnStatus']) && $GLOBALS['DBConnStatus']==true){
 
 if(isset($_POST) && (isset($_POST['action']) && $_POST['action']=='getData')){
     $teams=[];
-    $employees=[];
-    $projects=[];
+    $employees=[];    
+    
     $q = new Mongo\Query([],[]);
-    $cursor = $CONN->executeQuery('projectDB.Teams',$q);
-    foreach($cursor as $employee) {
-        $teams[]=$employee;
-    }
+    
     $cursor = $CONN->executeQuery('projectDB.Employees',$q);
     foreach($cursor as $employee) {
         $employees[]=$employee;
-    }
-    $cursor = $CONN->executeQuery('projectDB.Projects',$q);
+    } 
+    
+    $cursor = $CONN->executeQuery('projectDB.Teams',$q);
     foreach($cursor as $employee) {
-        $projects[]=$employee;
-    }
-    echo json_encode(["teams"=>$teams,"employees"=>$employees,"projects"=>$projects]);
+        $teams[]=$employee;
+    } 
+       
+    echo json_encode(["teams"=>$teams,"employees"=>$employees]);
 }
 
 if(isset($_POST) && (isset($_POST['action']) && $_POST['action']=='deleteEmployee')){

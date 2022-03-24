@@ -36,12 +36,14 @@
                 <button>Save Changes</button>
             </div>
             <div class="col-10">
-                <div class="h-100 w-100 mainBox p-4 text-center" id="employeeHolder">
-                </div>
+              <div class="h-100 w-100 mainBox p-4 text-center" id="employeeHolder">
+                
+              </div>
             </div>
+          </div>
         </div>
-    </div>
-</div> 
+    </div> 
+  </div> 
 <?php
     require("../view/_inc/footer.php");
 ?>

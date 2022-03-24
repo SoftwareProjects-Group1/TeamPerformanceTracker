@@ -11,15 +11,15 @@
       if(isset($_SESSION['loggedIN'],$_SESSION['userRole']) && $_SESSION['userRole']=="Admin"){
         require("../view/_inc/headerLoggedInAdmin.php");
       } elseif(isset($_SESSION['loggedIN'],$_SESSION['userRole']) && $_SESSION['userRole']=="Employee") {
-        require("../headerLoggedInEmployee.php");
+        require("../view/_inc/headerLoggedInEmployee.php");
       }
       ?>
   </div>
 </nav>
 <script>
   function logout() {
-    $.post("../../controller/logout.php",{"action": "logout"});
+    $.post("../controller/logout.php",{"action": "logout"});
     alert("Logged Out");
-    window.location.replace("/view/index.php");
+    window.location.replace("../view/index.php");
   }
 </script>

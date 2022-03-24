@@ -18,6 +18,7 @@ function connect() {
         $GLOBALS['DBConnStatus'] = true;
         $GLOBALS['DBConn'] = $m;
     }
+    
     catch (Throwable $e) {
         $GLOBALS['DBConnStatus'] = false;
     }

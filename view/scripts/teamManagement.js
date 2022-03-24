@@ -3,7 +3,7 @@ $(document).ready(function() {
 });
 
 function getData() {
-    $.post('../../controller/teamManagement.php', { "action": "getData" }, function(data, status) { checkData(data, status) })
+    $.post('../controller/teamManagement.php', { "action": "getData" }, function(data, status) { checkData(data, status) })
 }
 
 function checkData(data, status) {
