@@ -2,41 +2,44 @@
     require("../view/_inc/head.php");
     require("../view/_inc/header.php");
 
-    $missingEmail = "";
+    $missingEmail = $emailExist = "";
     
     if (isset($_POST['submit'])) {
 
-      if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-        $missingEmail = "Invalid email address";
-      }
-      else {
-        if  ($_POST['email']!=null){
+      $m = new MongoDB\Driver\Manager('mongodb+srv://group1:fvAIyyCRp4PBaDPQ@clst01.to6hh.mongodb.net/projectDB?retryWrites=true&w=majority');
 
-          require("phpmailer/PHPMailer.php");
-          require("phpmailer/SMTP.php");
-          require("phpmailer/Exception.php");
-      
-          $mail = new PHPMailer\PHPMailer\PHPMailer();
-          $mail->IsSMTP(); 
-      
-          $mail->SMTPDebug = 1; 
-          $mail->SMTPAuth = true; 
-          $mail->SMTPSecure = 'ssl'; 
-          $mail->Host = "smtp.gmail.com";
-          $mail->Port = 465; 
-          $mail->IsHTML(true);
-          $mail->Username = "actemiumproject@gmail.com";
-          $mail->Password = "nzw*FMZ@zcm9rby6vwa";
-          $mail->SetFrom("actemiumproject@gmail.com");
-          $mail->Subject = "Actemium - Password Reset";
-          $mail->Body = "Test";
-          $mail->AddAddress($_POST['email']);
-          $mail->Send();
-  
-          header("Location: forgotPasswordSummary.php"); 
+      $filter = [ 'Email_Address' => $_POST['email']]; 
+      $query = new MongoDB\Driver\Query($filter);     
+      $res = $m->executeQuery("projectDB.Users", $query);
+
+      if (!count($res->toarray())){
+        $emailExist = "Email doesn't exist";        
+      }      
+      else {
+        require("phpmailer/PHPMailer.php");
+        require("phpmailer/SMTP.php");
+        require("phpmailer/Exception.php");
+    
+        $mail = new PHPMailer\PHPMailer\PHPMailer();
+        $mail->IsSMTP(); 
+    
+        $mail->SMTPDebug = 1; 
+        $mail->SMTPAuth = true; 
+        $mail->SMTPSecure = 'ssl'; 
+        $mail->Host = "smtp.gmail.com";
+        $mail->Port = 465; 
+        $mail->IsHTML(true);
+        $mail->Username = "actemiumproject@gmail.com";
+        $mail->Password = "nzw*FMZ@zcm9rby6vwa";
+        $mail->SetFrom("actemiumproject@gmail.com");
+        $mail->Subject = "Actemium - Password Reset";
+        $mail->Body = "Test";
+        $mail->AddAddress($_POST['email']);
+        $mail->Send();
+
+        header("Location: forgotPasswordSummary.php");
         }
       }
-    }
      
 ?>
 <div class="main">
@@ -56,6 +59,7 @@
                 <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com">
                 <label for="floatingInput">Email address</label>
                 <span class="text-danger"><?php echo $missingEmail; ?></span>
+                <span class="text-danger"><?php echo $emailExist; ?></span>
               </div>
 
               <div class="d-grid text-center">
