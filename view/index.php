@@ -58,7 +58,7 @@
               </div>
 
               <div class="form-check mb-3">
-                <input class="form-check-input" type="checkbox" <?php if(isset($_COOKIE['checked'])){echo "checked\"".$_COOKIE['checked']."\"";} ?> id="rememberPasswordCheck">
+                <input class="form-check-input" type="checkbox" <?php if(isset($_COOKIE['checked'])){echo "checked=\"".$_COOKIE['checked']."\"";} ?> id="rememberPasswordCheck">
                 <label class="form-check-label" for="rememberPasswordCheck">
                   Remember password
                 </label>
