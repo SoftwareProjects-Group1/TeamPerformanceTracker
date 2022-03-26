@@ -108,6 +108,11 @@
     overflow-y: scroll;
 }
 
+.tableContainerAddE {
+    max-height: 50vh;
+    overflow-y: scroll;
+}
+
 .tableRowE {
     border: 1px solid grey;
 }
@@ -155,4 +160,23 @@
 
 .modalWidth {
     max-width: 75%;
+}
+
+.teamListLable {
+    border: 0.5px solid grey;
+    padding: 0.3rem;
+}
+
+.teamListLable:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+}
+
+.teamListCB:checked+.teamListLable {
+    background-color: rgba(0, 136, 204, 0.5)!important;
+}
+
+.teamsListContainer {
+    max-height: 200px;
+    overflow-y: scroll;
 }

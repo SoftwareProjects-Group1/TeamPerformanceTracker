@@ -25,7 +25,7 @@ function displayData(data) {
         //Runs through all projects in the database, selects only those assigned to the current team its working through, creates a html element to present any projects assigned
         Object.values(data["projects"]).filter(e => e["assignedTeamID"] == (teamID)).forEach(project => {
             projects += `
-            <div id="${project["projectID"]}" class="projectPod">
+            <div id="${project["projectID"]}-PC" class="projectPod">
                 <span>${project["projectName"]}</span><span class="d-none">${project["projectDescription"]}</span>
                 <button data-toggle="tooltip" data-placement="top" title="Remove Project" id="${project["projectID"]}-DEL" class="BTN rounded-3"><i class="fa-solid fa-x"></i></button>
             </div>
@@ -33,9 +33,9 @@ function displayData(data) {
         })
         var engineers = "";
         //Runs through all employees in the database, selectes only those assigned to the current team its working through, creates a html element to present any employees assigned
-        Object.values(data["employees"]).filter(e => e["assignedTeam"].includes(teamID)).forEach(employee => {
+        Object.values(data["employees"]).filter(e => { if (e["assignedTeam"] == null) { return false } else { return e["assignedTeam"].map(String).includes(teamID) } }).forEach(employee => {
                 engineers += `
-            <div id="${employee["employeeID"]}" class="engineerPod">
+            <div id="${employee["employeeID"]}-EC" class="engineerPod">
                 <div class="d-inline-block">
                     <span>${employee["employeeName"]}, </span>
                     <span>${employee["employeeRole"]}</span>
@@ -49,14 +49,14 @@ function displayData(data) {
             })
             //Adds the newly created html block to the already exisiting team container
         $("#teamHolder")[0].innerHTML += `
-        <div class="teamContainer shadow rounded-3 p-2 d-inline-block" id="${teamID}">
+        <div class="teamContainer shadow rounded-3 p-2 d-inline-block" id="${teamID}-TC">
             <div class="d-flex justify-content-between">
                 <input id="${team["teamName"]}" value="${team["teamName"]}" class="me-4"></input>
                 <button data-toggle="tooltip" data-placement="top" title="Delete Team" onclick="deleteTeam(this.id)" id="${teamID}-DEL" class="BTN rounded-3 me-1"><i class="fa-solid fa-x"></i></button>
             </div>
             <div class="teamDivider mt-2 mb-2 ms-auto me-auto rounded-3"></div>
             <div class="d-flex justify-content-between">
-                <span class="ms-1">Projects</span>
+                <span class="ms-1">Project</span>
                 <button data-toggle="tooltip" data-placement="top" title="Add Projects" onclick="addProject(this.id)" id="${teamID}-ADDP" class="BTN rounded-3 me-1"><i class="fa-solid fa-plus"></i></button>
             </div>
             
@@ -76,7 +76,7 @@ function displayData(data) {
         //Selects all teams on the page, sorts them by their names and then redisplays the teams in sorted order
         const main = document.querySelector('#teamHolder');
         const divs = [...main.children];
-        divs.sort((a, b) => a.id - b.id);
+        divs.sort((a, b) => a.id.localeCompare(b.id));
         divs.forEach(div => main.appendChild(div));
     });
 }
@@ -100,8 +100,8 @@ function confirmDeleteTeam() {
     $('#alertModal').modal('hide')
     $.post('../controller/teamManagement.php', { "action": "deleteTeam", "teamID": lastTeamID }, function(data, status) {
         if (status == "success") {
+            $(`#${lastTeamID}-TC`).remove();
             alert("Team Deleted");
-            $(`#${lastTeamID}`).remove();
         } else { alert("Could not delete team, please try again later"); }
     })
 }
@@ -142,7 +142,7 @@ async function createTeamPopup() {
         <label for="teamNameInput">Team Name</label>
         </div>
         <hr>
-        <div>Projects</div>
+        <div>Projects (Optional)</div>
         <div class="tableContainer p-1">
             <table class="tableContainerTable w-100">
                 <tbody id="projectTB">
@@ -155,7 +155,7 @@ async function createTeamPopup() {
             </table>
         </div>
         <hr>
-        <div>Engineers</div>
+        <div>Engineers (Optional)</div>
         <div class="tableContainer p-1">
             <table class="tableContainerTable w-100">
                 <tbody id="employeeTB">
@@ -347,5 +347,170 @@ function handleCreateTeamPost(data) {
             "projects": projects,
             "employees": employees
         },
-        function(data, status) { console.log(data, status) })
+        function(data, status) {
+            data = JSON.parse(data);
+            $('#modalContent')[0].innerHTML = "";
+            $('#alertModal').modal('hide')
+            if (data[0] == true) {
+                $('#teamHolder')[0].innerHTML = "";
+                getData();
+                alert("Team created");
+            } else {
+                alert("Team can't be created at this time please try again later");
+            }
+        });
+}
+
+async function createEmployeePopup(id) {
+    teamListData = await $.ajax({
+        url: '../controller/teamManagement.php',
+        type: 'POST',
+        data: { "action": "getTeams" }
+    });
+    teamListData = JSON.parse(teamListData);
+    teamListData.sort((a, b) => a['teamName'].localeCompare(b['teamName']));
+    var teams = "";
+    teamListData.forEach(team => { teams += `
+        <input name="${team['teamID']}-CB" class="teamListCB d-none" type="checkbox" id="${team['teamID']}-CB">
+        <label for="${team['teamID']}-CB" class="teamListLable w-100 mt-1 mb-1">${team['teamName']}</label>
+    ` });
+    $('#modalTitle')[0].innerText = "Create Employee";
+    $('#modalContent')[0].innerHTML = `
+    <form method="post" id="createEmployeeForm">
+        <div class="form-floating mb-3">
+        <input id="employeeNameInput" class="form-control" name="eName" placeholder="Employee Name" required >
+        <label for="employeeNameInput">Employee Name</label>
+        </div>
+        <div class="form-floating mb-3">
+        <input id="employeeRoleInput" class="form-control" name="eRole" placeholder="Employee Role" required >
+        <label for="employeeRoleInput">Employee Role</label>
+        </div>
+        <div class="form-floating mb-3">
+        <input id="employeeEmailInput" class="form-control" name="eEmail" placeholder="Employee Email" required >
+        <label for="employeeEmailInput">Employee Email</label>
+        </div>
+        <hr>
+        <div class="mb-2">Assign Employee (Optional)</div>
+        <div class="teamsListContainer p-1">
+            ${teams}
+        </div>
+        <button class="btn btn-success w-100 mt-2">Create Employee</button>
+    </form>
+    `;
+    $('#modalButton').hide();
+    $('#alertModal').modal('show');
+    $('#createEmployeeForm').submit((event) => {
+        event.preventDefault();
+        handleCreateEmployeePost($('#createEmployeeForm').serializeArray());
+    });
+}
+
+function handleCreateEmployeePost(data) {
+    var employeeName;
+    var employeeRole;
+    var employeeEmail;
+    var assignedTeams = [];
+    data.forEach(val => {
+        if (val.name.includes("eName")) { employeeName = val.value }
+        if (val.name.includes("eRole")) { employeeRole = val.value }
+        if (val.name.includes("eEmail")) { employeeEmail = val.value }
+        if (val.name.includes("-CB")) { assignedTeams.push(val.name.replace("-CB", "")) }
+    });
+    $.post('../controller/teamManagement.php', {
+            "action": "createEmployee",
+            "eName": employeeName,
+            "eRole": employeeRole,
+            "eEmail": employeeEmail,
+            "eTeams": assignedTeams
+        },
+        function(data, status) {
+            data = JSON.parse(data);
+            $('#modalContent')[0].innerHTML = "";
+            $('#alertModal').modal('hide')
+            if (data[0] == true) {
+                $('#teamHolder')[0].innerHTML = "";
+                getData();
+                alert("Employee created");
+            } else {
+                alert("Employee can't be created at this time please try again later");
+            }
+        });
+}
+
+async function addEngineer(id) {
+    teamID = id.replace("-ADDE", "");
+    employeeListData = await $.ajax({
+        url: '../controller/teamManagement.php',
+        type: 'POST',
+        data: { "action": "getEmployees" }
+    });
+    employeeListData = JSON.parse(employeeListData);
+    employeeListData = employeeListData.filter(e => { if (e['assignedTeam'] == null) { return true } else { return !(e['assignedTeam'].map(String).includes(teamID)) } });
+    data = employeeListData;
+    data.sort((a, b) => a['employeeName'].localeCompare(b['employeeName']));
+    var checkBoxes = "";
+    data.forEach(employee => { checkBoxes += `<input name="${employee["employeeID"]}-ECBN" class="d-none" type="checkbox" id="${employee["employeeID"]}-ECB">` });
+    $('#modalTitle')[0].innerText = "Add Employee";
+    $('#modalContent')[0].innerHTML = `
+    <form method="post" id="addEmployeeForm">
+        <input class="d-none" value="${teamID}" name="teamID">
+        <div>Employees</div>
+        <div class="tableContainerAddE p-1">
+            <table class="tableContainerTable w-100">
+                <tbody id="employeeTB">
+                    <tr class="tableRowHeader">
+                        <th class="tableHeaderE" id="1E" class="pt-1 pb-1 ps-2">Employee Name</th>
+                        <th class="tableHeaderE" id="2E" class="pt-1 pb-1">Employee Role</th>
+                    </tr>
+                    ${createEmployeeList(data)}
+                </tbody>
+            </table>
+        </div>
+        <div>${checkBoxes}</div>
+        <button class="btn btn-success w-100 mt-2">Add Employees</button>
+    </form>
+    `;
+    $('.tableRowE').each(function(i, obj) {
+        $(obj).click(function() {
+            $(this).toggleClass("tableRowClicked");
+            $(`#${$(this)[0].id.replace("-EID", "-ECB")}`).click();
+        });
+    });
+    $('.tableHeaderE').each(function(i, obj) {
+        $(obj).click(function() { sortTableE(this.id) });
+    });
+    $('#addEmployeeForm').submit((event) => {
+        event.preventDefault();
+        handleAddEmployeePost($('#addEmployeeForm').serializeArray());
+    });
+    $('#modalButton').hide();
+    $('#alertModal').modal('show');
+}
+
+function handleAddEmployeePost(data) {
+    var teamID;
+    var assignedEmployees = [];
+    console.log(data);
+    data.forEach(val => {
+        if (val.name.includes("teamID")) { teamID = val.value }
+        if (val.name.includes("ECBN")) { assignedEmployees.push(val.name.replace("-ECBN", "")) }
+    });
+    $.post('../controller/teamManagement.php', {
+            "action": "addEmployee",
+            "assignedEmployees": assignedEmployees,
+            "teamID": teamID
+        },
+        function(data, status) {
+            console.log(data, status)
+            data = JSON.parse(data);
+            $('#modalContent')[0].innerHTML = "";
+            $('#alertModal').modal('hide')
+            if (data[0] == true) {
+                $('#teamHolder')[0].innerHTML = "";
+                getData();
+                alert("Employees Added");
+            } else {
+                alert("Employees can't be added at this time please try again later");
+            }
+        });
 }

@@ -25,7 +25,7 @@
             <div class="col-2 d-flex flex-column align-items-center sideButtons justify-content-center">
                 <button onclick="createTeamPopup();">Create Team</button>
                 <div></div>
-                <button>Create Employee</button>
+                <button onclick="createEmployeePopup();">Create Employee</button>
             </div>
             <div class="col-10">
                 <div class="h-100 w-100 mainBox p-4 text-center" id="teamHolder">
