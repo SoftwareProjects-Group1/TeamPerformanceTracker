@@ -28,9 +28,9 @@ function displayData(data) {
             <span class="ms-1">Employee's Role</span>
             <div id="${employeeID}-RolesContainer p-4" class="projectContainer">
                 ${employeeRole}
-            </div>            
+            </div>
         </div>
-        `;        
+        `;
     });
 }
 

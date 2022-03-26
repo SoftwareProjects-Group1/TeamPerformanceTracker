@@ -16,7 +16,7 @@ if(isset($_POST) && (isset($_POST['action']) && $_POST['action']=='getData')){
     $cursor = $CONN->executeQuery('projectDB.Employees',$q);
     foreach($cursor as $employee) {
         $employees[]=$employee;
-    } 
+    }
     
     $cursor = $CONN->executeQuery('projectDB.Teams',$q);
     foreach($cursor as $employee) {
