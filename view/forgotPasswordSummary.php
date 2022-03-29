@@ -11,6 +11,11 @@
 <div class="row">
     <div class="col-sm-7 col-md-7 col-lg-7 mx-auto">
     <div class="card border-0 shadow rounded-3 my-5">
+
+        <?php if(isset($_GET['sent'])):
+            echo '<script type="text/javascript">toastr.error("Password reset email sent!")</script>';
+        endif; ?>
+
         <div class="card-body p-4 p-sm-5">
         <div class="card text-white bg-success mb-7" style="max-width: 50rem;">
         <div class="card-header">Password Reset</div>

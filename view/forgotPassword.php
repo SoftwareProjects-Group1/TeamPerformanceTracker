@@ -35,7 +35,7 @@
         $mail->AddAddress($_POST['email']);
         $mail->Send();
 
-        header("Location: forgotPasswordSummary.php");
+        header("Location: forgotPasswordSummary.php?sent=true");
         }
       }
      
