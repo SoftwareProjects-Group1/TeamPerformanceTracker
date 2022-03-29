@@ -38,7 +38,7 @@
                   up</button>
               </div>
 
-              <hr class="my-2">
+              <hr class="my-4">
               <div class="d-grid mb-2 text-center">
                 <a href="index.php" class="btn btn-google btn-login text-uppercase fw-bold" type="submit">
                       Return to login</a>
