@@ -33,7 +33,8 @@
         $mail->Password = "nzw*FMZ@zcm9rby6vwa";
         $mail->SetFrom("actemiumproject@gmail.com");
         $mail->Subject = "Actemium - Password Reset";
-        $mail->Body = "http://localhost/view/forgotPasswordReset.php?email=$email&hash=$hash";
+        $mail->AddEmbeddedImage("../assets/media/Actemium.png", "actemium-logo", "../assets/media/Actemium.png");
+        $mail->Body = "<img alt='PHPMailer' src='cid:actemium-logo' width='300' height='100'> <br> You have requested a password reset, you can reset your password by heading to this link: <br><br> http://localhost/view/forgotPasswordReset.php?email=$email&hash=$hash";
         $mail->AddAddress($_POST['email']);
         $mail->Send();
 
