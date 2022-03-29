@@ -17,7 +17,8 @@
              <td>Project Description</td>
                <td>Project Budget</td>
                <td>Project Manager</td>
-                    <td> Action </td>                       
+                    <td> Update </td>     
+                    <td> View Performance </td>      
                  </thead>  ";     
         $results=[];
         $q = new MongoDB\Driver\Query([],[]);
@@ -31,6 +32,9 @@
             echo "<td>" . $row->ProjectManager. "</td>"; 
             //echo "<td>" . $row->assignedTeamID . "</td>";
             echo '<td><a class="btn btn-info" href="updateProject.php?ProjectName='. $row->projectName.'">Update</a></td>';
+            echo '<td><a class="btn btn-info" href="projectPerformance.php?ProjectName='. $row->projectName.'">ViewPerformance</a></td>';
+
+
 
 
          echo "</tr>";
@@ -72,6 +76,7 @@ if (isset($_GET['Updated'])){
                 <div class="col-sm-9 col-md-7 col-lg-12 mx-auto">
 
                     <div class="card border-0 shadow rounded-3 my-5">
+                    <br>
                     <h1 class="text-center"> Projects </h1>
 
                         <div class="card-body p-4 p-5">
