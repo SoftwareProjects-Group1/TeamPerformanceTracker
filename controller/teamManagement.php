@@ -92,7 +92,7 @@ if(isset($_POST) && (isset($_POST['action']) && $_POST['action']=='createTeam'))
         if(isset($_POST['employees'])){
             foreach($_POST['employees'] as $employee){
                 $bulk = new Mongo\BulkWrite;
-                $filter = ["employeeID"=>(int)$employee];
+                $filter = ["employeeID"=>$employee];
                 $bulk->update($filter, ['$push'=>["assignedTeam"=>$teamID]], []);
                 $res = $CONN->executeBulkWrite('projectDB.Employees', $bulk);
             }
