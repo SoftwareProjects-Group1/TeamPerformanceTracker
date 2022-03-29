@@ -2,6 +2,40 @@
     require("../view/_inc/head.php");
     require("../view/_inc/header.php");
 
+    function displayPerformance() {
+        $m = new MongoDB\Driver\Manager('mongodb+srv://group1:fvAIyyCRp4PBaDPQ@clst01.to6hh.mongodb.net/projectDB?retryWrites=true&w=majority');
+        echo "<table class='table table-bordered table-striped'>";
+        echo "<thead>   
+           <td>TeamName</td>                    
+            <td>ManagerHappiness</td>
+             <td>TotalFunding</td>
+               <td>TotalSpent</td>
+               <td>PercentageSpent</td>
+                 </thead>  ";     
+        $results=[];
+
+        $filter = [ 'ProjectName' => $_GET['ProjectName']]; 
+
+        $q = new MongoDB\Driver\Query($filter);
+
+        $cursor = $m->executeQuery('projectDB.ProjectPerformances',$q);
+        foreach($cursor as $row) {
+            echo "<tr>";
+            echo "<td>" . $row->ProjectName. "</td>";
+            echo "<td>" . $row->ManagerHappiness . "</td>";
+            echo "<td>" . $row->TotalFunding . "</td>"; 
+            echo "<td>" . $row->TotalSpent. "</td>"; 
+            echo "<td>" . $row->PercentageSpent. "</td>"; 
+        
+         echo "</tr>";
+        
+        
+        }
+        echo "<table>";
+
+        
+}
+
     
 
         
@@ -30,12 +64,12 @@
                                                 
                                                 <?php
                                                  
-                                                 
+                                                 displayPerformance();
                                                  
                                                  ?>
                                                       
                                         </table>    
-                                        <a class="btn btn-info" href="performancePage.php">Return</a>
+                                        <a class="btn btn-info" href="ViewProject.php">Return</a>
                                     </div>
 
                                 </div>
