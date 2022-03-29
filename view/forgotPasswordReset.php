@@ -22,7 +22,10 @@
           $query = new MongoDB\Driver\Query($filter);     
           $res = $m->executeQuery("projectDB.Users", $query);
 
-          if (count($res->toarray())){
+          if (!count($res->toarray())){
+            echo '<script type="text/javascript">toastr.error("Unable to update password")</script>';
+          }
+          else {
             $b = new \MongoDB\Driver\BulkWrite;
             $filter = ["Email_Address"=>$_GET['email']];
             
@@ -30,10 +33,7 @@
             $b->update($filter, ['$set'=>["Password_Hash"=>""]], []);
             $res = $m->executeBulkWrite('projectDB.Users', $b);
 
-            header("Location: index.php?passwordUpdated=true");
-          }
-          else {
-
+            header("Location: index.php?passwordUpdated=true");            
           }    
 
         }
