@@ -77,7 +77,6 @@
               <div class="d-grid mb-2 text-center">
                 <a href="forgotPassword.php" class="btn btn-google btn-login text-uppercase fw-bold" type="submit">
                       Forgot password?</a>
-
                 </button>
               </div>
 

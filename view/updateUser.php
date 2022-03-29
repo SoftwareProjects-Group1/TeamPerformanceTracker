@@ -174,17 +174,16 @@ if (isset($_POST["delete"])){
             </select>
             <span class="text-danger"><?php echo $errRole; ?></span>
 
-            <br>
-
+            <hr class="my-4">
             
             <div class="d-grid text-center">
               <button class="  btn btn-primary btn-login text-uppercase fw-bold" type="submit" name="submit"> Update User</button>
             </div><br>
             <div class="d-grid text-center">
-              <button class="  btn btn-primary btn-login text-uppercase fw-bold" type="delete" name="delete" onclick="return confirm('Are you sure you wish to delete?')">Delete</button>
+              <button class="  btn btn-primary btn-login text-uppercase fw-bold" type="delete" name="delete" onclick="return confirm('Are you sure you wish to delete?')">Delete User</button>
             </div><br>
             <div class="d-grid text-center">
-              <a href = "manageUsers.php" class="  btn btn-secondary btn-login text-uppercase fw-bold" type="submit" >Return To Dashboard</a>
+              <a href = "manageUsers.php" class="  btn btn-secondary btn-login text-uppercase fw-bold" type="submit" >Return To Users</a>
             </div>
           </form>
 

@@ -101,7 +101,7 @@ if (isset($_POST["delete"])){
     <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
       <div class="card border-0 shadow rounded-3 my-5">
         <div class="card-body p-4 p-sm-5">
-          <h5 class="card-title text-center mb-5 fw-light fs-5">Update</h5>
+          <h5 class="card-title text-center mb-5 fw-light fs-5">Update Project</h5>
 
           <form method="post">
             <div class="form-floating mb-3">
@@ -133,13 +133,15 @@ if (isset($_POST["delete"])){
               <span class="text-danger"><?php echo $errDesc; ?></span>
 
             </div>
+
+            <hr class="my-4">
             
             <div class="d-grid text-center">
-              <button class="  btn btn-primary btn-login text-uppercase fw-bold" type="submit" name="submit" >Update</button>
+              <button class="  btn btn-primary btn-login text-uppercase fw-bold" type="submit" name="submit" >Update Project</button>
             </div><br>
 
             <div class="d-grid text-center">
-              <button class="  btn btn-primary btn-login text-uppercase fw-bold" type="delete" name="delete" onclick="return confirm('Are you sure you wish to delete?')">Delete</button>
+              <button class="  btn btn-primary btn-login text-uppercase fw-bold" type="delete" name="delete" onclick="return confirm('Are you sure you wish to delete?')">Delete Project</button>
             </div><br>
 
             <div class="d-grid text-center">
