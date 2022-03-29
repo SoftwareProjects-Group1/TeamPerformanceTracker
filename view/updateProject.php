@@ -143,7 +143,7 @@ if (isset($_POST["delete"])){
             </div><br>
 
             <div class="d-grid text-center">
-              <a href="index.php" class="btn btn-secondary btn-login text-uppercase fw-bold" type="submit" >Return to home</a>
+              <a href="ViewProject.php" class="btn btn-secondary btn-login text-uppercase fw-bold" type="submit" >Return to projects</a>
             </div>
           </form>
 
