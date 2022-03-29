@@ -63,9 +63,8 @@
             header("Location:manageUsers.php?Created=True");
         }
             else {
-                    echo '<div class="alert alert-danger" role="alert">
-                Already Username "'.$_POST['username'].'" In The Database
-                </div>';
+              echo '<script type="text/javascript">toastr.error("User Name already exists")</script>';
+
                 
                 }
               

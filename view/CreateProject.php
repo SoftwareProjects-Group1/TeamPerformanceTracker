@@ -59,9 +59,8 @@
           header("Location:ViewProject.php?Created=True");
       }
           else {
-                  echo '<div class="alert alert-danger" role="alert">
-              Already Username "'.$_POST['name'].'" In The Database
-              </div>';
+            echo '<script type="text/javascript">toastr.error("Project Name already exists")</script>';
+
               
               }
         

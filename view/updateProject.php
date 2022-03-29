@@ -45,19 +45,37 @@
       if($allFields == "yes")
       {
 
-        $bulk = new \MongoDB\Driver\BulkWrite;
-        $filter = ["projectName"=>$_GET['ProjectName']];
-        $bulk->update($filter, ['$set'=>["projectDescription"=>$_POST['description']]], []);
-        $bulk->update($filter, ['$set'=>["projectName"=>$_POST['name']]], []);
-        $bulk->update($filter, ['$set'=>["projectBudget"=>$_POST['budget']]], []);
-        $bulk->update($filter, ['$set'=>["ProjectManager"=>$_POST['managername']]], []);
+        
+        $m = new MongoDB\Driver\Manager('mongodb+srv://group1:fvAIyyCRp4PBaDPQ@clst01.to6hh.mongodb.net/projectDB?retryWrites=true&w=majority');
 
+        $filter = [ 'projectName' => $_POST['name']]; 
 
-        $res = $m->executeBulkWrite('projectDB.Projects', $bulk);
-        header("Location:viewProject.php?Updated=True");
+        $query = new MongoDB\Driver\Query($filter);     
+        $res = $m->executeQuery("projectDB.Projects", $query);
+
+        if (!count($res->toarray())){
+          $bulk = new \MongoDB\Driver\BulkWrite;
+          $filter = ["projectName"=>$_GET['ProjectName']];
+          $bulk->update($filter, ['$set'=>["projectDescription"=>$_POST['description']]], []);
+          $bulk->update($filter, ['$set'=>["projectName"=>$_POST['name']]], []);
+          $bulk->update($filter, ['$set'=>["projectBudget"=>$_POST['budget']]], []);
+          $bulk->update($filter, ['$set'=>["ProjectManager"=>$_POST['managername']]], []);
+  
+  
+          $res = $m->executeBulkWrite('projectDB.Projects', $bulk);
+          header("Location:viewProject.php?Updated=True");
+      }
+          else {
+            echo '<script type="text/javascript">toastr.error("Project Name already exists")</script>';
+
+              
+              }
+
+        
 
 }
     }
+  
 if (isset($_POST["delete"])){
   $bulk = new \MongoDB\Driver\BulkWrite;
   $filter = ["projectName"=>$_GET['ProjectName']];
