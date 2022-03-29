@@ -38,6 +38,10 @@
         <div class="card border-0 shadow rounded-3 my-5">
           <div class="card-body p-4 p-sm-5">
             <h5 class="card-title text-center mb-5 fw-light fs-5">Sign In</h5>
+
+            <?php if(isset($_GET['passwordUpdated'])):
+            echo '<script type="text/javascript">toastr.success("Password updated!")</script>';
+            endif; ?>
             
             <form onsubmit="submitForm(event)" id="loginForm">
               

@@ -6,20 +6,36 @@
 
     if (isset($_POST['submit'])) {
 
-      if ($_POST['password']=="") {
-          $missingPassword = "Password is required";
+      if ($_POST['password']=="" || $_POST['confirmPassword']=="") {
+        echo '<script type="text/javascript">toastr.error("Missing fields")</script>';
       } 
 
-      if ($_POST['confirmPassword']=="") {
-        $missingPasswordConfirm = "Please confirm your password";
-      }
-
       if ($_POST['password'] != $_POST['confirmPassword']) {
-        $passwordMismatch = "Passwords don't match";
+        echo '<script type="text/javascript">toastr.error("Password mismatch")</script>';
       }
       else {
         if  ($_POST['password']!=null && $_POST['confirmPassword']!=null){
-          echo "Password Reset Function Here";
+
+          $m = new MongoDB\Driver\Manager('mongodb+srv://group1:fvAIyyCRp4PBaDPQ@clst01.to6hh.mongodb.net/projectDB?retryWrites=true&w=majority');
+
+          $filter = [ 'Password_Hash' => $_GET['hash']]; 
+          $query = new MongoDB\Driver\Query($filter);     
+          $res = $m->executeQuery("projectDB.Users", $query);
+
+          if (count($res->toarray())){
+            $b = new \MongoDB\Driver\BulkWrite;
+            $filter = ["Email_Address"=>$_GET['email']];
+            
+            $b->update($filter, ['$set'=>["Password"=>$_POST['password']]], []);
+            $b->update($filter, ['$set'=>["Password_Hash"=>""]], []);
+            $res = $m->executeBulkWrite('projectDB.Users', $b);
+
+            header("Location: index.php?passwordUpdated=true");
+          }
+          else {
+
+          }    
+
         }
       }
     }
