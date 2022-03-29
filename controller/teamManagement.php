@@ -118,7 +118,7 @@ if(isset($_POST) && (isset($_POST['action']) && $_POST['action']=='createEmploye
     try {
 
         $bulk = new Mongo\BulkWrite;
-        $bulk->insert(["employeeID"=>$eID,"employeeName"=>$_POST['eName'],"employeeRole"=>$_POST['eRole'],"employeeEmail"=>$_POST['eEmail'],"assignedTeam"=> isset($_POST['eTeams']) ? $_POST['eTeams'] : []]);
+        $bulk->insert(["employeeID"=>$eID,"employeeName"=>ucwords($_POST['eName']),"employeeRole"=>ucwords($_POST['eRole']),"employeeEmail"=>$_POST['eEmail'],"assignedTeam"=> isset($_POST['eTeams']) ? $_POST['eTeams'] : []]);
         $res = $CONN->executeBulkWrite('projectDB.Employees', $bulk);
         echo json_encode([true,null]);
 
@@ -165,6 +165,84 @@ if(isset($_POST) && (isset($_POST['action']) && $_POST['action']=='addEmployee')
             $res = $CONN->executeBulkWrite('projectDB.Employees', $bulk);
         }
         echo json_encode([true,null]);
+    } catch(Throwable $e) {
+        echo json_encode([false,$e]);
+    }
+}
+
+if(isset($_POST) && (isset($_POST['action']) && $_POST['action']=='removeEmployee')){
+    try {
+        $bulk = new Mongo\BulkWrite;
+        $filter = ["employeeID"=>$_POST['eID']];
+        $bulk->update($filter, ['$pull'=>["assignedTeam"=>$_POST['tID']]], []);
+        $res = $CONN->executeBulkWrite('projectDB.Employees', $bulk);
+        echo json_encode([true,null]);
+    } catch(Throwable $e) {
+        echo json_encode([false,$e]);
+    }
+}
+
+if(isset($_POST) && (isset($_POST['action']) && $_POST['action']=='removeProject')){
+    try {
+        $bulk = new Mongo\BulkWrite;
+        $filter = ["projectID"=>(int)$_POST['pID']];
+        $bulk->update($filter, ['$set'=>["assignedTeamID"=>0]], []);
+        $res = $CONN->executeBulkWrite('projectDB.Projects', $bulk);
+        echo json_encode([true,null]);
+    } catch(Throwable $e) {
+        echo json_encode([false,$e]);
+    }
+}
+
+if(isset($_POST) && (isset($_POST['action']) && $_POST['action']=='addProject')){
+    try {
+        $teamID = $_POST['teamID'];
+        foreach ($_POST['assignedProjects'] as $project){
+            $bulk = new Mongo\BulkWrite;
+            $filter = ["projectID"=>(int)$project];
+            $bulk->update($filter, ['$set'=>["assignedTeamID"=>$teamID]], []);
+            $res = $CONN->executeBulkWrite('projectDB.Projects', $bulk);
+        }
+        echo json_encode([true,null]);
+    } catch(Throwable $e) {
+        echo json_encode([false,$e]);
+    }
+}
+
+if(isset($_POST) && (isset($_POST['action']) && $_POST['action']=='getEngineer')){
+    try {
+        $filter = ["employeeID"=>$_POST['eID']];
+        $q = new Mongo\Query($filter,[]);
+        $employeeSel = $CONN->executeQuery('projectDB.Employees',$q);
+        $foundEmployee="";
+        foreach($employeeSel as $employee) {
+            $foundEmployee=$employee;
+        }
+        echo json_encode([true,$foundEmployee]);
+    } catch(Throwable $e) {
+        echo json_encode([false,$e]);
+    }
+}
+
+if(isset($_POST) && (isset($_POST['action']) && $_POST['action']=='editEngineer')){
+    try {
+        $bulk = new Mongo\BulkWrite;
+        $filter = ["employeeID"=>$_POST['eID']];
+        $bulk->update($filter, ['$set'=>["employeeName"=>ucwords($_POST['eName']),"employeeRole"=>ucwords($_POST['eRole']),"employeeEmail"=>$_POST['eEmail']]], []);
+        $res = $CONN->executeBulkWrite('projectDB.Employees', $bulk);
+        echo json_encode([true,$res]);
+    } catch(Throwable $e) {
+        echo json_encode([false,$e]);
+    }
+}
+
+if(isset($_POST) && (isset($_POST['action']) && $_POST['action']=='editTeam')){
+    try {
+        $bulk = new Mongo\BulkWrite;
+        $filter = ["teamID"=>$_POST['tID']];
+        $bulk->update($filter, ['$set'=>["teamName"=>$_POST['tName']]], []);
+        $res = $CONN->executeBulkWrite('projectDB.Teams', $bulk);
+        echo json_encode([true,$res]);
     } catch(Throwable $e) {
         echo json_encode([false,$e]);
     }

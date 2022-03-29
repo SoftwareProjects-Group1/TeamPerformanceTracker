@@ -35,15 +35,10 @@
     vertical-align: top;
 }
 
-.teamContainer input {
+.teamContainerTitle {
     border: none;
     font-family: 'Montserrat', sans-serif;
     text-decoration: underline;
-    width: 70%;
-}
-
-.teamContainer input:focus {
-    outline: none;
 }
 
 .BTN {
@@ -179,4 +174,8 @@
 .teamsListContainer {
     max-height: 200px;
     overflow-y: scroll;
+}
+
+.toast {
+    opacity: 1!important;
 }

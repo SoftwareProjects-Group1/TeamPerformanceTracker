@@ -1,6 +1,7 @@
 $(document).ready(function() {
     //Once page loads gets team date
     getData();
+    toastr.options.progressBar = true;
 });
 
 function getData() {
@@ -10,9 +11,9 @@ function getData() {
 
 function checkData(data, status) {
     //Checks if the post returned, parses the data, checks if there is any data, loads the teams onto the page if there is
-    if (status != "success") { alert("Connection to the DB can't be established, please try later."); return; }
+    if (status != "success") { toastr.error("Connection to the DB can't be established, please try later."); return; }
     data = JSON.parse(data);
-    if (Object.keys(data["teams"]).length == 0) { alert("No teams have been found, create a new team by clicking on the left!"); return; }
+    if (Object.keys(data["teams"]).length == 0) { toastr.info("No teams have been found, create a new team by clicking on the left!"); return; }
     displayData(data);
 }
 
@@ -27,7 +28,7 @@ function displayData(data) {
             projects += `
             <div id="${project["projectID"]}-PC" class="projectPod">
                 <span>${project["projectName"]}</span><span class="d-none">${project["projectDescription"]}</span>
-                <button data-toggle="tooltip" data-placement="top" title="Remove Project" id="${project["projectID"]}-DEL" class="BTN rounded-3"><i class="fa-solid fa-x"></i></button>
+                <button data-toggle="tooltip" data-placement="top" title="Remove Project" onclick="removeProject(this)" id="${project["projectID"]}-DEL" class="BTN rounded-3"><i class="fa-solid fa-x"></i></button>
             </div>
             `
         })
@@ -41,8 +42,8 @@ function displayData(data) {
                     <span>${employee["employeeRole"]}</span>
                 </div>
                 <div>
-                    <button data-toggle="tooltip" data-placement="top" title="Edit Engineer" id="${employee["employeeID"]}-EDIT" class="BTN rounded-3"><i class="fa-solid fa-pen-to-square"></i></button>
-                    <button data-toggle="tooltip" data-placement="top" title="Remove Engineer" id="${employee["employeeID"]}-DEL" class="BTN rounded-3"><i class="fa-solid fa-x"></i></button>
+                    <button data-toggle="tooltip" data-placement="top" title="Edit Engineer" onclick="editEngineer(this.id)" id="${employee["employeeID"]}-EDIT" class="BTN rounded-3"><i class="fa-solid fa-pen-to-square"></i></button>
+                    <button data-toggle="tooltip" data-placement="top" title="Remove Engineer" onclick="removeEngineer(this)" id="${employee["employeeID"]}-DEL-${teamID}" class="BTN rounded-3"><i class="fa-solid fa-x"></i></button>
                 </div>
             </div>
             `;
@@ -51,9 +52,12 @@ function displayData(data) {
         $("#teamHolder")[0].innerHTML += `
         <div class="teamContainer shadow rounded-3 p-2 d-inline-block" id="${teamID}-TC">
             <div class="d-flex justify-content-between">
-                <input id="${team["teamName"]}" value="${team["teamName"]}" class="me-4"></input>
-                <button data-toggle="tooltip" data-placement="top" title="Delete Team" onclick="deleteTeam(this.id)" id="${teamID}-DEL" class="BTN rounded-3 me-1"><i class="fa-solid fa-x"></i></button>
-            </div>
+                <span class="teamContainerTitle" id="${team["teamName"]}" class="me-4">${team["teamName"]}</span>
+                <div>
+                    <button data-toggle="tooltip" data-placement="top" title="Edit Team Name" onclick="editTeam(this)" id="${teamID}-EDIT" class="BTN rounded-3"><i class="fa-solid fa-pen-to-square"></i></button>
+                    <button data-toggle="tooltip" data-placement="top" title="Delete Team" onclick="deleteTeam(this.id)" id="${teamID}-DEL" class="BTN rounded-3 me-1"><i class="fa-solid fa-x"></i></button>
+                </div>
+                </div>
             <div class="teamDivider mt-2 mb-2 ms-auto me-auto rounded-3"></div>
             <div class="d-flex justify-content-between">
                 <span class="ms-1">Project</span>
@@ -101,8 +105,8 @@ function confirmDeleteTeam() {
     $.post('../controller/teamManagement.php', { "action": "deleteTeam", "teamID": lastTeamID }, function(data, status) {
         if (status == "success") {
             $(`#${lastTeamID}-TC`).remove();
-            alert("Team Deleted");
-        } else { alert("Could not delete team, please try again later"); }
+            toastr.success("Team Deleted");
+        } else { toastr.error("Could not delete team, please try again later"); }
     })
 }
 
@@ -354,9 +358,9 @@ function handleCreateTeamPost(data) {
             if (data[0] == true) {
                 $('#teamHolder')[0].innerHTML = "";
                 getData();
-                alert("Team created");
+                toastr.success("Team created");
             } else {
-                alert("Team can't be created at this time please try again later");
+                toastr.error("Team can't be created at this time please try again later");
             }
         });
 }
@@ -430,9 +434,9 @@ function handleCreateEmployeePost(data) {
             if (data[0] == true) {
                 $('#teamHolder')[0].innerHTML = "";
                 getData();
-                alert("Employee created");
+                toastr.success("Employee created");
             } else {
-                alert("Employee can't be created at this time please try again later");
+                toastr.error("Employee can't be created at this time please try again later");
             }
         });
 }
@@ -490,7 +494,6 @@ async function addEngineer(id) {
 function handleAddEmployeePost(data) {
     var teamID;
     var assignedEmployees = [];
-    console.log(data);
     data.forEach(val => {
         if (val.name.includes("teamID")) { teamID = val.value }
         if (val.name.includes("ECBN")) { assignedEmployees.push(val.name.replace("-ECBN", "")) }
@@ -501,16 +504,252 @@ function handleAddEmployeePost(data) {
             "teamID": teamID
         },
         function(data, status) {
-            console.log(data, status)
             data = JSON.parse(data);
             $('#modalContent')[0].innerHTML = "";
             $('#alertModal').modal('hide')
             if (data[0] == true) {
                 $('#teamHolder')[0].innerHTML = "";
                 getData();
-                alert("Employees Added");
+                toastr.success("Employees Added");
             } else {
-                alert("Employees can't be added at this time please try again later");
+                toastr.error("Employees can't be added at this time please try again later");
+            }
+        });
+}
+
+function removeEngineer(obj) {
+    id = obj.id.split("-");
+    eID = id[0];
+    tID = id[2];
+    console.log(id, eID, tID)
+    $.post('../controller/teamManagement.php', {
+            "action": "removeEmployee",
+            "eID": eID,
+            "tID": tID
+        },
+        function(data, status) {
+            console.log(data, status)
+            data = JSON.parse(data);
+            $('#modalContent')[0].innerHTML = "";
+            $('#alertModal').modal('hide')
+            if (data[0] == true) {
+                $(obj)[0].parentNode.parentNode.remove();
+                toastr.success("Employee removed");
+            } else {
+                toastr.error("Employee can't be removed at this time please try again later");
+            }
+        }
+    );
+}
+
+function removeProject(obj) {
+    pID = obj.id.replace("-DEL");
+    $.post('../controller/teamManagement.php', {
+            "action": "removeProject",
+            "pID": pID
+        },
+        function(data, status) {
+            data = JSON.parse(data);
+            $('#modalContent')[0].innerHTML = "";
+            $('#alertModal').modal('hide')
+            if (data[0] == true) {
+                $(obj)[0].parentNode.remove();
+                toastr.success("Project removed");
+            } else {
+                toastr.error("Project can't be removed at this time please try again later");
+            }
+        }
+    );
+}
+
+async function addProject(id) {
+    teamID = id.replace("-ADDP", "");
+    projectListData = await $.ajax({
+        url: '../controller/teamManagement.php',
+        type: 'POST',
+        data: { "action": "getProjects" }
+    });
+    projectListData = JSON.parse(projectListData);
+    projectListData = projectListData.filter(e => e['assignedTeamID'] == 0);
+    data = projectListData;
+    data.sort((a, b) => a['projectName'].localeCompare(b['projectName']));
+    var checkBoxes = "";
+    data.forEach(project => { checkBoxes += `<input name="${project["projectID"]}-PCBN" class="d-none" type="checkbox" id="${project["projectID"]}-PCB">` });
+    $('#modalTitle')[0].innerText = "Add Project";
+    $('#modalContent')[0].innerHTML = `
+    <form method="post" id="addProjectForm">
+        <input class="d-none" value="${teamID}" name="teamID">
+        <div>Projects</div>
+        <div class="tableContainerAddE p-1">
+            <table class="tableContainerTable w-100">
+                <tbody id="projectTB">
+                    <tr class="tableRowHeader">
+                        <th class="tableHeaderP" id="1P" class="pt-1 pb-1 ps-2">Project Name</th>
+                        <th class="tableHeaderP" id="2P" class="pt-1 pb-1">Project Description</th>
+                    </tr>
+                    ${createProjectList(data)}
+                </tbody>
+            </table>
+        </div>
+        <div>${checkBoxes}</div>
+        <button class="btn btn-success w-100 mt-2">Add Projects</button>
+    </form>
+    `;
+    $('.tableRowP').each(function(i, obj) {
+        $(obj).click(function() {
+            $(this).toggleClass("tableRowClicked");
+            $(`#${$(this)[0].id.replace("-PID", "-PCB")}`).click();
+        });
+    });
+    $('.tableHeaderP').each(function(i, obj) {
+        $(obj).click(function() { sortTableP(this.id) });
+    });
+    $('#addProjectForm').submit((event) => {
+        event.preventDefault();
+        handleAddProjectPost($('#addProjectForm').serializeArray());
+    });
+    $('#modalButton').hide();
+    $('#alertModal').modal('show');
+}
+
+function handleAddProjectPost(data) {
+    var teamID;
+    var assignedProjects = [];
+    data.forEach(val => {
+        if (val.name.includes("teamID")) { teamID = val.value }
+        if (val.name.includes("PCBN")) { assignedProjects.push(val.name.replace("-PCBN", "")) }
+    });
+    $.post('../controller/teamManagement.php', {
+            "action": "addProject",
+            "assignedProjects": assignedProjects,
+            "teamID": teamID
+        },
+        function(data, status) {
+            data = JSON.parse(data);
+            $('#modalContent')[0].innerHTML = "";
+            $('#alertModal').modal('hide')
+            if (data[0] == true) {
+                $('#teamHolder')[0].innerHTML = "";
+                getData();
+                toastr.success("Projects Added");
+            } else {
+                toastr.error("Projects can't be added at this time please try again later");
+            }
+        });
+}
+
+async function editEngineer(eID) {
+    eID = eID.replace("-EDIT", "");
+    engineerData = await $.ajax({
+        url: '../controller/teamManagement.php',
+        type: 'POST',
+        data: { "action": "getEngineer", "eID": eID }
+    });
+    engineerData = JSON.parse(engineerData);
+    console.log(engineerData);
+    $('#modalTitle')[0].innerText = "Edit Engineer";
+    $('#modalContent')[0].innerHTML = `
+    <form method="post" id="editEngineerForm">
+        <input class="d-none" value="${engineerData[1]['employeeID']}" name="eID">
+        <div class="form-floating mb-3">
+        <input id="employeeNameInput" class="form-control" name="eName" value="${engineerData[1]['employeeName']}" required >
+        <label for="employeeNameInput">Employee Name</label>
+        </div>
+        <div class="form-floating mb-3">
+        <input id="employeeRoleInput" class="form-control" name="eRole" value="${engineerData[1]['employeeRole']}" required >
+        <label for="employeeRoleInput">Employee Role</label>
+        </div>
+        <div class="form-floating mb-3">
+        <input id="employeeEmailInput" class="form-control" type="email" name="eEmail" value="${engineerData[1]['employeeEmail']}" required >
+        <label for="employeeEmailInput">Employee Email</label>
+        </div>
+        <button class="btn btn-success w-100 mt-2">Save Changes</button>
+    </form>
+    `;
+    $('#editEngineerForm').submit((event) => {
+        event.preventDefault();
+        handleEditEngineerPost($('#editEngineerForm').serializeArray());
+    });
+    $('#modalButton').hide();
+    $('#alertModal').modal('show');
+}
+
+function handleEditEngineerPost(data) {
+    var eID;
+    var eName;
+    var eRole;
+    var eEmail;
+    data.forEach(val => {
+        if (val.name.includes("eID")) { eID = val.value }
+        if (val.name.includes("eName")) { eName = val.value }
+        if (val.name.includes("eRole")) { eRole = val.value }
+        if (val.name.includes("eEmail")) { eEmail = val.value }
+    });
+    $.post('../controller/teamManagement.php', {
+            "action": "editEngineer",
+            "eID": eID,
+            "eName": eName,
+            "eRole": eRole,
+            "eEmail": eEmail
+        },
+        function(data, status) {
+            data = JSON.parse(data);
+            $('#modalContent')[0].innerHTML = "";
+            $('#alertModal').modal('hide')
+            if (data[0] == true) {
+                $('#teamHolder')[0].innerHTML = "";
+                getData();
+                toastr.success("Engineer Edited");
+            } else {
+                toastr.error("Engineer can't be edited at this time please try again later");
+            }
+        });
+}
+
+async function editTeam(obj) {
+    tID = obj.id.replace("-EDIT", "");
+    var tName = $(obj)[0].parentNode.parentNode.children[0].innerText;
+    $('#modalTitle')[0].innerText = "Edit Team Name";
+    $('#modalContent')[0].innerHTML = `
+    <form method="post" id="editTeamForm">
+        <input class="d-none" value="${tID}" name="tID">
+        <div class="form-floating mb-3">
+        <input id="teamNameInput" class="form-control" name="tName" value="${tName}" required >
+        <label for="teamNameInput">Team Name</label>
+        </div>
+        <button class="btn btn-success w-100 mt-2">Save Changes</button>
+    </form>
+    `;
+    $('#editTeamForm').submit((event) => {
+        event.preventDefault();
+        handleEditTeamPost($('#editTeamForm').serializeArray());
+    });
+    $('#modalButton').hide();
+    $('#alertModal').modal('show');
+}
+
+function handleEditTeamPost(data) {
+    var tID;
+    var tName;
+    data.forEach(val => {
+        if (val.name.includes("tID")) { tID = val.value }
+        if (val.name.includes("tName")) { tName = val.value }
+    });
+    $.post('../controller/teamManagement.php', {
+            "action": "editTeam",
+            "tID": tID,
+            "tName": tName
+        },
+        function(data, status) {
+            data = JSON.parse(data);
+            $('#modalContent')[0].innerHTML = "";
+            $('#alertModal').modal('hide')
+            if (data[0] == true) {
+                $('#teamHolder')[0].innerHTML = "";
+                getData();
+                toastr.success("Team Name Edited");
+            } else {
+                toastr.error("Team Name can't be edited at this time please try again later");
             }
         });
 }
