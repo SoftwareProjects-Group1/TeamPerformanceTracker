@@ -13,7 +13,7 @@
     <div class="card border-0 shadow rounded-3 my-5">
 
         <?php if(isset($_GET['sent'])):
-            echo '<script type="text/javascript">toastr.error("Password reset email sent!")</script>';
+            echo '<script type="text/javascript">toastr.success("Password reset email sent!")</script>';
         endif; ?>
 
         <div class="card-body p-4 p-sm-5">
