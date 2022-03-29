@@ -1,8 +1,6 @@
 <?php
     require("../view/_inc/head.php");
     require("../view/_inc/header.php");
-
-    $missingEmail = $emailExist = "";
     
     if (isset($_POST['submit'])) {
 
@@ -13,7 +11,7 @@
       $res = $m->executeQuery("projectDB.Users", $query);
 
       if (!count($res->toarray())){
-        $emailExist = "Email doesn't exist";        
+        echo '<script type="text/javascript">toastr.error("Email not in database")</script>';
       }      
       else {
         require("phpmailer/PHPMailer.php");
@@ -58,8 +56,6 @@
               <div class="form-floating mb-3">
                 <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com">
                 <label for="floatingInput">Email address</label>
-                <span class="text-danger"><?php echo $missingEmail; ?></span>
-                <span class="text-danger"><?php echo $emailExist; ?></span>
               </div>
 
               <div class="d-grid text-center">
