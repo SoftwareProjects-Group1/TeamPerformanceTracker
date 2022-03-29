@@ -50,28 +50,16 @@
     
     <div class="inner_main">
     <?php if (isset($_GET['Deleted'])){
-            echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <strong>Project Deleted</strong>
-            <a href = "viewProject.php" "type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </a>
-          </div>';
+                       echo '<script type="text/javascript">toastr.success("Successfully Deleted")</script>';
+
     }
     if (isset($_GET['Created'])){
-        echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <strong>Project Created</strong>
-        <a href = "viewProject.php" "type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </a>
-      </div>';
+        echo '<script type="text/javascript">toastr.success("Successfully Created")</script>';
+
 }
 if (isset($_GET['Updated'])){
-    echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
-    <strong>Updated Project</strong>
-    <a href = "viewProject.php" "type="button" class="close" data-dismiss="alert" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </a>
-  </div>';
+    echo '<script type="text/javascript">toastr.success("Successfully Updated")</script>';
+
 }
     
     ?>
