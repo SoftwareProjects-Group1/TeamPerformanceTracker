@@ -26,12 +26,15 @@
             echo "<td>" . $row->TotalFunding . "</td>"; 
             echo "<td>" . $row->TotalSpent. "</td>"; 
             echo "<td>" . $row->PercentageSpent. "</td>"; 
+            $percentage = $row->PercentageSpent;
         
          echo "</tr>";
+
         
         
         }
         echo "<table>";
+        return $percentage;
 
         
 }
@@ -44,11 +47,13 @@
        
         ?>
         
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
 <div class="main">      
     
         <div class="container">
-        
 
             <div class="row">
                 <div class="col-sm-9 col-md-7 col-lg-12 mx-auto">
@@ -64,12 +69,75 @@
                                                 
                                                 <?php
                                                  
-                                                 displayPerformance();
+                                                 $percentage = displayPerformance();
+
+                                                 
                                                  
                                                  ?>
+                                                 <br>
+                                                 <h3 class="text-center"> Funding Spent  </h3>
+
+                                                 
+                                                 <div class="progress" style="height: 20px;">
+                                                 <div class="progress-bar" role="progressbar" style="width: <?php echo $percentage;?>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><?php echo $percentage. "%"; ?></div>
+                                                </div>
+
+                                                <br>
+
+
+                                                <div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+
+
+                                               <script> Highcharts.chart("container", {
+                                                    colors: ["#01BAF2", "#f6fa4b", "#FAA74B", "#baf201", "#f201ba"],
+                                                    chart: {
+                                                        type: "pie"
+                                                    },
+                                                    title: {
+                                                        text: "Funding Spent"
+                                                    },
+                                                    tooltip: {
+                                                        valueSuffix: '%'
+                                                    },
+                                                    subtitle: {
+                                                        text:
+                                                        'Source:<a href="https://youtu.be/dQw4w9WgXcQ" target="_default">Rick</a>'
+                                                    },
+                                                    plotOptions: {
+                                                        pie: {
+                                                        allowPointSelect: true,
+                                                        cursor: "pointer",
+                                                        dataLabels: {
+                                                            enabled: true,
+                                                            format: '{point.name}: {point.percentage:.1f}%'
+                                                        },
+                                                        showInLegend: true
+                                                        }
+                                                    },
+                                                    series: [
+                                                        {
+                                                        name: "Percentage",
+                                                        colorByPoint: true,
+                                                        data: [
+                                                            {
+                                                            name: "Spent Funding",
+                                                            y: <?php echo $percentage;?>
+                                                            },
+                                                            {
+                                                            name: "Funding Remaining",
+                                                            sliced: true,
+                                                            selected: true,
+                                                            y: <?php echo 100 - $percentage;?>
+                                                            },                                                    
+                                                        ]
+                                                        }
+                                                    ]
+                                                    }); </script>
+
+                                                <br>
                                                       
                                         </table>    
-                                        <a class="btn btn-info" href="ViewProject.php">Return</a>
+                                        <a class="btn btn-info" href="performancePage.php">Return</a>
                                     </div>
 
                                 </div>
