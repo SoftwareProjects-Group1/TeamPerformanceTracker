@@ -17,6 +17,9 @@
         require("phpmailer/PHPMailer.php");
         require("phpmailer/SMTP.php");
         require("phpmailer/Exception.php");
+
+        $hash = md5(time().$_POST['email']);
+        $email = $_POST['email'];
     
         $mail = new PHPMailer\PHPMailer\PHPMailer();
         $mail->isSMTP();
@@ -30,9 +33,15 @@
         $mail->Password = "nzw*FMZ@zcm9rby6vwa";
         $mail->SetFrom("actemiumproject@gmail.com");
         $mail->Subject = "Actemium - Password Reset";
-        $mail->Body = "Test";
+        $mail->Body = "http://localhost/view/forgotPasswordReset.php?email=$email&hash=$hash";
         $mail->AddAddress($_POST['email']);
         $mail->Send();
+
+        $b = new \MongoDB\Driver\BulkWrite;
+        $filter = ["Email_Address"=>$_POST['email']];
+        
+        $b->update($filter, ['$set'=>["Password_Hash"=>$hash]], []);
+        $res = $m->executeBulkWrite('projectDB.Users', $b);
 
         header("Location: forgotPasswordSummary.php?sent=true");
         }
