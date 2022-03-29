@@ -30,13 +30,9 @@
         
         
         }
-        echo "<table>";
-
-        
+        echo "<table>";     
 }
-
-       
-        ?>
+?>
         
 
 <div class="main">      
