@@ -41,8 +41,30 @@
 
             <?php if(isset($_GET['passwordUpdated'])):
             echo '<script type="text/javascript">toastr.success("Password updated!")</script>';
-            endif; ?>
-            
+            endif; ?>     
+
+            <div id="accountModal" class="modal fade">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <h5 class="modal-title">Account Recovery</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                      </div>
+                      <div class="modal-body">
+                      <div class="d-grid mb-2 text-center">
+                      <a href="forgotUsername.php" class="btn btn-primary btn-login text-uppercase fw-bold" type="button">
+                              Forgot Username</a><br>
+                      <a href="forgotPassword.php" class="btn btn-primary btn-login text-uppercase fw-bold" type="button">
+                              Forgot Password</a>
+                      </div>
+                      </div>
+                      <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                      </div>
+                  </div>
+              </div>
+            </div>            
+
             <form onsubmit="submitForm(event)" id="loginForm">
               
               <div class="form-floating mb-3">
@@ -57,8 +79,6 @@
                 <label for="floatingPassword">Password</label>
                 <span class="text-danger"></span>
                 <span class="text-danger"></span>
-
-
               </div>
 
               <div class="form-check mb-3">
@@ -75,8 +95,8 @@
 
               <hr class="my-4">
               <div class="d-grid mb-2 text-center">
-                <a href="forgotPassword.php" class="btn btn-google btn-login text-uppercase fw-bold" type="submit">
-                      Forgot password?</a>
+                <a class="btn btn-google btn-login text-uppercase fw-bold" href="#accountModal" class="btn btn-lg btn-primary" data-bs-toggle="modal">
+                      Forgot your details?</a>
                 </button>
               </div>
 
@@ -84,8 +104,7 @@
               <a href="UserCreation.php" class="btn btn-google btn-login text-uppercase fw-bold" type="submit">
                       Create Account</a>
               </div>
-
-            
+                    
           </div>
         </div>
       </div>
