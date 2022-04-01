@@ -138,6 +138,8 @@
                                                       
                                         </table>    
                                         <a class="btn btn-info" href="performancePage.php">Return</a>
+                                        <a class="btn btn-info" href="editProjectPerformance.php?ProjectName=<?php echo $_GET['ProjectName'] ?>">Edit Performance</a>
+
                                     </div>
 
                                 </div>

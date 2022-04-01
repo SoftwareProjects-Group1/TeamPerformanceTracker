@@ -130,6 +130,8 @@
                                                       
                                         </table>    
                                         <a class="btn btn-info" href="performancePage.php">Return</a>
+                                        <a class="btn btn-info" href="editProjectPerformance.php">Edit Project Performance</a>
+
                                     </div>
 
                                 </div>
