@@ -45,7 +45,7 @@
         $mail->SetFrom("actemiumproject@gmail.com");
         $mail->Subject = "Actemium - Username Reminder";
         $mail->AddEmbeddedImage("../assets/media/Actemium.png", "actemium-logo", "../assets/media/Actemium.png");
-        $mail->Body = "<img alt='PHPMailer' src='cid:actemium-logo' width='300' height='100'> <br> Your username is: <h2>".$data[0]['Username']."</h2>";
+        $mail->Body = "<img alt='PHPMailer' src='cid:actemium-logo' width='300' height='100'> <br> We've received a request for a reminder of what your Actemium username is. If this was not you, don't worry, nothing on your account has been changed. <br><br> Your username is: <h2>".$data[0]['Username']."</h2>";
         $mail->AddAddress($_POST['email']);
         $mail->Send();
         header("Location: forgotUsernameSummary.php?sent=true");
