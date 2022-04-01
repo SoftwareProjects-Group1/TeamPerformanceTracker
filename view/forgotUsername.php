@@ -14,7 +14,41 @@
         echo '<script type="text/javascript">toastr.error("Email not in database")</script>';
       }      
       else {
-        echo 'Username reminder email function goes here';
+        require("phpmailer/PHPMailer.php");
+        require("phpmailer/SMTP.php");
+        require("phpmailer/Exception.php");
+
+        $m = new MongoDB\Driver\Manager('mongodb+srv://group1:fvAIyyCRp4PBaDPQ@clst01.to6hh.mongodb.net/projectDB?retryWrites=true&w=majority');
+
+        $filter = ['Email_Address' => $_POST['email']];
+        $options = [ 'projection' => ['Username' => 1 ], 'limit' => 1 ];
+        $query = new MongoDB\Driver\Query($filter, $options);
+        $username = $m->executeQuery('projectDB.Users', $query);
+
+        $username = json_encode(iterator_to_array($username));
+        $data = json_decode($username, true);
+
+        foreach ($data as $k){
+          echo $k['Username'];
+        }
+        
+        $mail = new PHPMailer\PHPMailer\PHPMailer();
+        $mail->isSMTP();
+        $mail->Host = 'localhost';
+        $mail->SMTPAuth = true; 
+        $mail->SMTPSecure = 'ssl'; 
+        $mail->Host = "smtp.gmail.com";
+        $mail->Port = 465; 
+        $mail->IsHTML(true);
+        $mail->Username = "actemiumproject@gmail.com";
+        $mail->Password = "nzw*FMZ@zcm9rby6vwa";
+        $mail->SetFrom("actemiumproject@gmail.com");
+        $mail->Subject = "Actemium - Username Reminder";
+        $mail->AddEmbeddedImage("../assets/media/Actemium.png", "actemium-logo", "../assets/media/Actemium.png");
+        $mail->Body = "<img alt='PHPMailer' src='cid:actemium-logo' width='300' height='100'> <br> Your username is: <h2>".$data[0]['Username']."</h2>";
+        $mail->AddAddress($_POST['email']);
+        $mail->Send();
+        header("Location: forgotUsernameSummary.php?sent=true");
         }
       }
      
@@ -38,7 +72,7 @@
               </div>
 
               <div class="d-grid text-center">
-                <button class="btn btn-primary btn-success text-uppercase fw-bold" name="submit" type="submit">Submit</button>
+                <button class="btn btn-primary btn-success text-uppercase fw-bold" name="submit" type="submit">Request Username Reminder</button>
               </div>
 
               <hr class="my-4">
