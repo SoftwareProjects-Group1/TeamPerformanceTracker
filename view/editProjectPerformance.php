@@ -24,9 +24,9 @@
             ?>
             <tr>
             <td><?php echo $row->ProjectName?></td>
-            <td><input type="text" name = "happiness" value="<?php echo $row->ManagerHappiness?>"></td>
-            <td><input type="text" name = "funding" value="<?php echo $row->TotalFunding?>"></td>
-            <td><input type="text" name = "spent" value="<?php echo $row->TotalSpent?>"></td>
+            <td><input type="number" name = "happiness" value="<?php echo $row->ManagerHappiness?>"></td>
+            <td><input type="number" name = "funding" value="<?php echo $row->TotalFunding?>"></td>
+            <td><input type="number" name = "spent" value="<?php echo $row->TotalSpent?>"></td>
             <td><?php echo $row->PercentageSpent?></td>
         
             </tr>
@@ -43,7 +43,7 @@
 
     if (isset($_POST['edit'])){
 
-        if (is_int($_POST['happiness'])){
+        if (isset($_POST['happiness'])){
             if ($_POST['happiness'] > 0 && $_POST['happiness'] <= 10){
                 $allfields = 'yes';
 
@@ -52,12 +52,7 @@
                 $allfields = 'no';
             }
         }
-        else {
-            $allfields = 'no';
-
-        }
-        
-        if (is_int($_POST['funding'])){
+        if (isset($_POST['funding'])){
             $allfields = 'yes';
         }
         else {
@@ -65,9 +60,8 @@
 
         }
 
-        if (is_int($_POST['spent'])){
+        if (isset($_POST['spent'])){
             $allfields = 'yes';
-            echo 'working';
 
         }
         else{
