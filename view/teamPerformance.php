@@ -130,7 +130,7 @@
                                                       
                                         </table>    
                                         <a class="btn btn-info" href="performancePage.php">Return</a>
-                                        <a class="btn btn-info" href="editTeamPerformance.php?TeamName=<?php echo $_GET['TeamName']?>">Edit Project Performance</a>
+                                        <a class="btn btn-info" href="editTeamPerformance.php?TeamName=<?php echo $_GET['TeamName']?>">Edit Team Performance</a>
 
                                     </div>
 
