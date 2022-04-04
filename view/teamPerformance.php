@@ -8,11 +8,11 @@
         $m = new MongoDB\Driver\Manager('mongodb+srv://group1:fvAIyyCRp4PBaDPQ@clst01.to6hh.mongodb.net/projectDB?retryWrites=true&w=majority');
         echo "<table class='table table-bordered table-striped'>";
         echo "<thead>   
-           <td>TeamName</td>                    
-            <td>ManagerHappiness</td>
-             <td>TotalFunding</td>
-               <td>TotalSpent</td>
-               <td>PercentageSpent</td>
+           <td>Team Name</td>                    
+            <td>Manager Happiness</td>
+             <td>Total Funding</td>
+               <td>Total Spent</td>
+               <td>Percentage Spent</td>
                  </thead>  ";     
         $results=[];
 
@@ -130,7 +130,7 @@
                                                       
                                         </table>    
                                         <a class="btn btn-info" href="performancePage.php">Return</a>
-                                        <a class="btn btn-info" href="editProjectPerformance.php">Edit Project Performance</a>
+                                        <a class="btn btn-info" href="editTeamPerformance.php?TeamName=<?php echo $_GET['TeamName']?>">Edit Project Performance</a>
 
                                     </div>
 
