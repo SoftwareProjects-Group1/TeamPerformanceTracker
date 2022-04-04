@@ -22,7 +22,7 @@
     if(data[0]==false){alert("Bad Login, Try Again")}
     if(data[0]==true){
       if(data[1]=="Admin"){window.location.replace("../view/teamManagement.php")}
-      if(data[1]=="Employee"){window.location.replace("../view/personalPerformance.php")}
+      if(data[1]=="Engineer"){window.location.replace("../view/personalPerformance.php")}
     }
   }
 </script>
