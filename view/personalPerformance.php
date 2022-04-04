@@ -2,6 +2,7 @@
     require("../view/_inc/head.php");
     require("../view/_inc/header.php");
 
+    $Title = ($_SESSION['userFname'].". ".$_SESSION['userSname']);
     
     
         
@@ -44,12 +45,14 @@
                             <div id="container" style="min-width: 410px; height: 500px; max-width: 1000px; margin: 0 auto"></div>
 
                             <script>
+                            var Title = <?=json_encode($Title)?>;
+
                             Highcharts.chart('container', {
                             chart: {
                                 type: 'column'
                             },
                             title: {
-                                text: 'User Name To Be Here'
+                                text: Title
                             },
                             xAxis: {
                                 categories: [
@@ -66,7 +69,7 @@
                                 min: 0,
                                 max:10,
                                 title: {
-                                    text: 'Rainfall (mm)'
+                                    text: "Score"
                                 }
                             },
                             tooltip: {
