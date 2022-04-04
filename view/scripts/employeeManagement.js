@@ -29,7 +29,7 @@ function displayData(data) {
             <div id="${employeeID}-RolesContainer p-4" class="projectContainer">
                 ${employeeRole}
             </div>
-            <span class="ms-1"><a href="rateEmployeePage.php?EmployeeName=${employee["employeeName"]}">Employee's Performance</a></span>
+            <span class="ms-1"><a href="PersonalPerformance.php?EmployeeName=${employee["employeeName"]}">Employee's Performance</a></span>
             
         </div>
         `;
