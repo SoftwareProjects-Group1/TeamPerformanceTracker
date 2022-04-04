@@ -2,7 +2,7 @@
     require("../view/_inc/head.php");
     require("../view/_inc/header.php");
 
-    $Title = ($_GET["EmployeeName"]);
+    $Title = ($_SESSION['userFname'].". ".$_SESSION['userSname']);
     
     
         
