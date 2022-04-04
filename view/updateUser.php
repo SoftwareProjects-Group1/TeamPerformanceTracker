@@ -78,11 +78,26 @@
             $res = $m->executeBulkWrite('projectDB.Users', $b);
             header("Location:manageUsers.php?Updated=True");
       }
-          else {
-            echo '<script type="text/javascript">toastr.error("Username already exists")</script>';
+      else if ($_GET['Username'] == $_POST['username']) {
+        $b = new \MongoDB\Driver\BulkWrite;
+        $filter = ["Username"=>$_GET['Username']];
+        
+        $b->update($filter, ['$set'=>["Username"=>$_POST['username']]], []);
+        $b->update($filter, ['$set'=>["Password"=>$_POST['password']]], []);
+        $b->update($filter, ['$set'=>["First_Name"=>$_POST['fname']]], []);
+        $b->update($filter, ['$set'=>["Last_Name"=>$_POST['lname']]], []);
+        $b->update($filter, ['$set'=>["Email_Address"=>$_POST['email']]], []);
+        $b->update($filter, ['$set'=>["Role"=>$_POST['role']]], []);
 
-              
-              }
+
+        $res = $m->executeBulkWrite('projectDB.Users', $b);
+        header("Location:manageUsers.php?Updated=True");
+      }
+      else {
+        echo '<script type="text/javascript">toastr.error("Username already exists")</script>';
+
+          
+          }
       }
 
         
