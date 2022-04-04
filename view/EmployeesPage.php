@@ -26,6 +26,8 @@
                 <button onclick="createTeamPopup();">Create Team</button>
                 <div></div>
                 <button onclick="createEmployeePopup();">Create Employee</button>
+                <div></div>
+                <button onclick="createRatingPopup();">Give Feedback</button>
             </div>
             <div class="col-10">
                 <div class="h-100 w-100 mainBox p-4 text-center" id="employeeHolder">

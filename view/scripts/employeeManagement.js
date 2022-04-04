@@ -29,7 +29,7 @@ function displayData(data) {
             <div id="${employeeID}-RolesContainer p-4" class="projectContainer">
                 ${employeeRole}
             </div>
-            <span class="ms-1"><a href="EmployeePerformance.php?EmployeeName=${employee["employeeName"]}">Employee's Performance</a></span>
+            <span class="ms-1"><a href="rateEmployeePage.php?EmployeeName=${employee["employeeName"]}">Employee's Performance</a></span>
             
         </div>
         `;
@@ -62,13 +62,13 @@ var projectListData;
 async function createTeamPopup() {
     //Posts synchronously to the controller to get all employees
     employeeListData = await $.ajax({
-        url: '../controller/teamManagement.php',
+        url: '../controller/employeeManagement.php',
         type: 'POST',
         data: { "action": "getEmployees" }
     });
     //Posts synchronously to the controller to get all projects
     projectListData = await $.ajax({
-        url: '../controller/teamManagement.php',
+        url: '../controller/employeeManagement.php',
         type: 'POST',
         data: { "action": "getProjects" }
     });
@@ -295,7 +295,7 @@ function handleCreateTeamPost(data) {
         if (val.name.includes("ECBN")) { employees.push(val.name.replace("-ECBN", "")) }
         if (val.name.includes("PCBN")) { projects.push(val.name.replace("-PCBN", "")) }
     })
-    $.post('../controller/teamManagement.php', {
+    $.post('../controller/employeeManagement.php', {
             "action": "createTeam",
             "teamName": teamName,
             "projects": projects,
@@ -317,7 +317,7 @@ function handleCreateTeamPost(data) {
 
 async function createEmployeePopup(id) {
     teamListData = await $.ajax({
-        url: '../controller/teamManagement.php',
+        url: '../controller/employeeManagement.php',
         type: 'POST',
         data: { "action": "getTeams" }
     });
@@ -370,7 +370,7 @@ function handleCreateEmployeePost(data) {
         if (val.name.includes("eEmail")) { employeeEmail = val.value }
         if (val.name.includes("-CB")) { assignedTeams.push(val.name.replace("-CB", "")) }
     });
-    $.post('../controller/teamManagement.php', {
+    $.post('../controller/employeeManagement.php', {
             "action": "createEmployee",
             "eName": employeeName,
             "eRole": employeeRole,
@@ -394,7 +394,7 @@ function handleCreateEmployeePost(data) {
 async function addEngineer(id) {
     teamID = id.replace("-ADDE", "");
     employeeListData = await $.ajax({
-        url: '../controller/teamManagement.php',
+        url: '../controller/employeeManagement.php',
         type: 'POST',
         data: { "action": "getEmployees" }
     });
@@ -448,7 +448,7 @@ function handleAddEmployeePost(data) {
         if (val.name.includes("teamID")) { teamID = val.value }
         if (val.name.includes("ECBN")) { assignedEmployees.push(val.name.replace("-ECBN", "")) }
     });
-    $.post('../controller/teamManagement.php', {
+    $.post('../controller/employeeManagement.php', {
             "action": "addEmployee",
             "assignedEmployees": assignedEmployees,
             "teamID": teamID
@@ -472,7 +472,7 @@ function removeEngineer(obj) {
     eID = id[0];
     tID = id[2];
     console.log(id, eID, tID)
-    $.post('../controller/teamManagement.php', {
+    $.post('../controller/employeeManagement.php', {
             "action": "removeEmployee",
             "eID": eID,
             "tID": tID
@@ -494,7 +494,7 @@ function removeEngineer(obj) {
 
 function removeProject(obj) {
     pID = obj.id.replace("-DEL");
-    $.post('../controller/teamManagement.php', {
+    $.post('../controller/employeeManagement.php', {
             "action": "removeProject",
             "pID": pID
         },
@@ -515,7 +515,7 @@ function removeProject(obj) {
 async function addProject(id) {
     teamID = id.replace("-ADDP", "");
     projectListData = await $.ajax({
-        url: '../controller/teamManagement.php',
+        url: '../controller/employeeManagement.php',
         type: 'POST',
         data: { "action": "getProjects" }
     });
@@ -569,7 +569,7 @@ function handleAddProjectPost(data) {
         if (val.name.includes("teamID")) { teamID = val.value }
         if (val.name.includes("PCBN")) { assignedProjects.push(val.name.replace("-PCBN", "")) }
     });
-    $.post('../controller/teamManagement.php', {
+    $.post('../controller/employeeManagement.php', {
             "action": "addProject",
             "assignedProjects": assignedProjects,
             "teamID": teamID
@@ -591,7 +591,7 @@ function handleAddProjectPost(data) {
 async function editEngineer(eID) {
     eID = eID.replace("-EDIT", "");
     engineerData = await $.ajax({
-        url: '../controller/teamManagement.php',
+        url: '../controller/employeeManagement.php',
         type: 'POST',
         data: { "action": "getEngineer", "eID": eID }
     });
@@ -635,7 +635,7 @@ function handleEditEngineerPost(data) {
         if (val.name.includes("eRole")) { eRole = val.value }
         if (val.name.includes("eEmail")) { eEmail = val.value }
     });
-    $.post('../controller/teamManagement.php', {
+    $.post('../controller/employeeManagement.php', {
             "action": "editEngineer",
             "eID": eID,
             "eName": eName,
@@ -685,7 +685,7 @@ function handleEditTeamPost(data) {
         if (val.name.includes("tID")) { tID = val.value }
         if (val.name.includes("tName")) { tName = val.value }
     });
-    $.post('../controller/teamManagement.php', {
+    $.post('../controller/employeeManagement.php', {
             "action": "editTeam",
             "tID": tID,
             "tName": tName
@@ -700,6 +700,64 @@ function handleEditTeamPost(data) {
                 toastr.success("Team Name Edited");
             } else {
                 toastr.error("Team Name can't be edited at this time please try again later");
+            }
+        });
+}
+
+async function createRatingPopup() {    
+    
+    $('#modalTitle')[0].innerText = "Give Feedback";
+    $('#modalContent')[0].innerHTML = `
+    <form method="post" id="RatingForm">
+        <div class="form-floating mb-3">
+        <input id="workloadRatingInput" type="number" class="form-control" name="rating" placeholder="1" required >
+        <label for="workloadRatingInput">How happy are you with your current work load? (1-10)</label>
+        </div>
+        <div class="form-floating mb-3">
+        <input id="teamRatingInput" class="form-control" name="eRole" placeholder="Employee Role" required >
+        <label for="teamRatingInput">How happy are you with your current teams? (1-10)</label>
+        </div>
+        <div class="form-floating mb-3">
+        <input id="managerRatingInput" class="form-control" name="eEmail" placeholder="Employee Email" required >
+        <label for="managerRatingInput">How happy with the leadership of your Teams? (1-10)</label>
+        </div> 
+        <button class="btn btn-success w-100 mt-2">Give Feedback</button>
+    </form>
+    `;
+    $('#modalButton').hide();
+    $('#alertModal').modal('show');
+    $('#RatingForm').submit((event) => {
+        event.preventDefault();
+        handleCreateRating($('#RatingForm').serializeArray());
+    });
+}
+
+function handleCreateRating(data) {
+    var workLoadRating;
+    var teamRating;
+    var leaderRating;
+    
+    data.forEach(val => {
+        if (val.name.includes("WLRating")) { workLoadRating = val.value }
+        if (val.name.includes("TRating")) { teamRating = val.value }
+        if (val.name.includes("LRating")) { leaderRating = val.value }
+    });
+    $.post('../controller/employeeManagement.php', {
+            "action": "createRating",
+            "WLRating": workLoadRating,
+            "TRating": teamRating,
+            "LRating": leaderRating
+        },
+        function(data, status) {
+            data = JSON.parse(data);
+            $('#modalContent')[0].innerHTML = "";
+            $('#alertModal').modal('hide')
+            if (data[0] == true) {
+                $('#teamHolder')[0].innerHTML = "";
+                getData();
+                toastr.success("Ratings Sent");
+            } else {
+                toastr.error("Rating can't be created at this time please try again later");
             }
         });
 }

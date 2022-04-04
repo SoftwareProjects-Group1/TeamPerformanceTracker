@@ -252,4 +252,17 @@ if(isset($_POST) && (isset($_POST['action']) && $_POST['action']=='editTeam')){
     }
 }
 
+if(isset($_POST) && (isset($_POST['action']) && $_POST['action']=='createRating')){
+    $eID = generateUEID($CONN);
+    try {
+        $bulk = new Mongo\BulkWrite;
+        $bulk->insert(["employeeID"=>$eID,"worklloadRating"=>$_POST['WLRating'],"teamMoralRating"=>$_POST['TRating'],"ManagerRating"=>$_POST['LRating'] ? $_POST['eTeams'] : []]);
+        $res = $CONN->executeBulkWrite('projectDB.SurveyResults', $bulk);
+        echo json_encode([true,null]);
+
+    } catch(Exception $e) {
+        echo json_encode([false,$e]);
+    }
+}
+
 ?>
