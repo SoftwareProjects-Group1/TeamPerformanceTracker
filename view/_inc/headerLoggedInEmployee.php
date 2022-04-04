@@ -1,5 +1,5 @@
 <div class="navbar-nav">
-<a id="navLink" href="personalPerformanc.php"><span>Personal Performanc</span></a>
+<a id="navLink" href="personalPerformance.php"><span>Personal Performance</span></a>
 </div>
 <div class="userArea">
     <span><?php

@@ -10,7 +10,7 @@
       session_start();
       if(isset($_SESSION['loggedIN'],$_SESSION['userRole']) && $_SESSION['userRole']=="Admin"){
         require("../view/_inc/headerLoggedInAdmin.php");
-      } elseif(isset($_SESSION['loggedIN'],$_SESSION['userRole']) && $_SESSION['userRole']=="Employee") {
+      } elseif(isset($_SESSION['loggedIN'],$_SESSION['userRole']) && $_SESSION['userRole']=="Engineer") {
         require("../view/_inc/headerLoggedInEmployee.php");
       }
       ?>
