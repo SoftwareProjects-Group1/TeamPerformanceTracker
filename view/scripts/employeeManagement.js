@@ -382,7 +382,7 @@ function handleCreateEmployeePost(data) {
             $('#modalContent')[0].innerHTML = "";
             $('#alertModal').modal('hide')
             if (data[0] == true) {
-                $('#teamHolder')[0].innerHTML = "";
+                $('#employeeHolder')[0].innerHTML = "";
                 getData();
                 toastr.success("Employee created");
             } else {
