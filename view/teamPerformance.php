@@ -91,10 +91,6 @@
                                                     tooltip: {
                                                         valueSuffix: '%'
                                                     },
-                                                    subtitle: {
-                                                        text:
-                                                        'Source:<a href="https://youtu.be/dQw4w9WgXcQ" target="_default">Rick</a>'
-                                                    },
                                                     plotOptions: {
                                                         pie: {
                                                         allowPointSelect: true,
